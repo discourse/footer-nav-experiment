@@ -1,0 +1,15 @@
+.footer-nav-experiment-present {
+  .d-header-icons {
+    .search-dropdown,
+    .hamburger-dropdown,
+    .chat-header-icon {
+      display: none;
+    }
+  }
+}
+
+.footer-nav-widget {
+  .btn-flat.active .d-icon {
+    color: var(--tertiary);
+  }
+}
