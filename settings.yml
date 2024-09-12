@@ -2,3 +2,4 @@ svg_icons:
   default: "share-from-square"
   type: "list"
   list_type: "compact"
+include_new_topic_button: false

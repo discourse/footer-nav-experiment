@@ -51,9 +51,14 @@ export default class FooterNavExp extends Component {
   get showNewTopicButton() {
     return (
       this.currentUser?.can_create_topic &&
+      settings.include_new_topic_button &&
       !this.currentRouteTopic &&
       !this.currentRouteChat
     );
+  }
+
+  get showShareButton() {
+    return settings.include_new_topic_button && this.currentRouteTopic;
   }
 
   @action
@@ -168,7 +173,7 @@ export default class FooterNavExp extends Component {
           />
         {{/if}}
 
-        {{#if this.currentRouteTopic}}
+        {{#if this.showShareButton}}
           <DButton
             @action={{this.goShare}}
             @icon="share-from-square"
