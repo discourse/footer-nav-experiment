@@ -7,7 +7,7 @@ export default apiInitializer("1.8.0", (api) => {
 
     @discourseComputed
     showFooterNav() {
-      // mobile, DiscourseHub, PWA (need these for iPads and other tablets)
+      // mobile, DiscourseHub, PWA (need these for tablets?)
       return (
         this.site.mobileView ||
         this.capabilities.isAppWebview ||

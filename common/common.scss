@@ -9,7 +9,21 @@
 }
 
 .footer-nav-widget {
+  .btn-flat {
+    font-size: var(--font-up-2);
+  }
+  .btn-flat.active,
   .btn-flat.active .d-icon {
     color: var(--tertiary);
+  }
+
+  .footer-nav__home.active {
+    position: relative;
+    &::after {
+      content: "ˆ";
+      position: absolute;
+      top: 4px;
+      font-size: 1.25rem;
+    }
   }
 }

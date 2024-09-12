@@ -4,10 +4,10 @@ import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import concatClass from "discourse/helpers/concat-class";
 import htmlClass from "discourse/helpers/html-class";
-import { postRNWebviewMessage } from "discourse/lib/utilities";
-import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
-import not from "truth-helpers/helpers/not";
 import DiscourseURL from "discourse/lib/url";
+import { postRNWebviewMessage } from "discourse/lib/utilities";
+import Composer from "discourse/models/composer";
+import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -18,6 +18,7 @@ export default class FooterNavExp extends Component {
   @service historyStore;
   @service currentUser;
   @service router;
+  @service siteSettings;
 
   _modalOn() {
     postRNWebviewMessage("headerBg", "rgb(0, 0, 0)");
@@ -44,8 +45,15 @@ export default class FooterNavExp extends Component {
   }
 
   get hasChatEnabled() {
-    console.log(this.currentUser);
     return true;
+  }
+
+  get showNewTopicButton() {
+    return (
+      this.currentUser?.can_create_topic &&
+      !this.currentRouteTopic &&
+      !this.currentRouteChat
+    );
   }
 
   @action
@@ -55,6 +63,11 @@ export default class FooterNavExp extends Component {
 
   @action
   goHome() {
+    if (this.currentRouteHome) {
+      document.querySelector(".list-control-toggle-link-trigger").click();
+      event.preventDefault();
+      return;
+    }
     DiscourseURL.routeTo(`/`);
   }
 
@@ -75,6 +88,21 @@ export default class FooterNavExp extends Component {
     });
   }
 
+  @action
+  goNewTopic() {
+    // If the page has a create-topic button, use it for context sensitive attributes like category
+    const createTopicButton = document.querySelector("#create-topic");
+    if (createTopicButton) {
+      createTopicButton.click();
+      return;
+    }
+
+    this.composer.open({
+      action: Composer.CREATE_TOPIC,
+      draftKey: Composer.NEW_TOPIC_KEY,
+    });
+  }
+
   get isVisible() {
     return (
       [UNSCROLLED, SCROLLED_UP].includes(
@@ -84,8 +112,10 @@ export default class FooterNavExp extends Component {
   }
 
   get currentRouteHome() {
-    const routeName = this.router.currentRoute.name;
-    return routeName.startsWith("discovery.");
+    const topMenu = this.siteSettings.top_menu.split("|");
+    const topMenuRouteNames = topMenu.map((item) => `discovery.${item}`);
+
+    return topMenuRouteNames.includes(this.router.currentRoute.name);
   }
 
   get currentRouteSearch() {
@@ -93,8 +123,11 @@ export default class FooterNavExp extends Component {
   }
 
   get currentRouteChat() {
-    const routeName = this.router.currentRoute.name;
-    return routeName.startsWith("chat.");
+    return this.router.currentRoute.name.startsWith("chat.");
+  }
+
+  get currentRouteTopic() {
+    return this.router.currentRoute.name.startsWith("topic.");
   }
 
   <template>
@@ -113,7 +146,7 @@ export default class FooterNavExp extends Component {
         <DButton
           @action={{this.goHome}}
           @icon="home"
-          class="btn-flat btn-large footer-nav__home
+          class="btn-flat footer-nav__home
             {{if this.currentRouteHome 'active'}}"
           @title="footer_nav.home"
         />
@@ -121,16 +154,34 @@ export default class FooterNavExp extends Component {
         <DButton
           @action={{this.goSearch}}
           @icon="search"
-          class="btn-flat btn-large footer-nav__search
+          class="btn-flat footer-nav__search
             {{if this.currentRouteSearch 'active'}}"
           @title="footer_nav.search"
         />
+
+        {{#if this.showNewTopicButton}}
+          <DButton
+            @action={{this.goNewTopic}}
+            @icon="plus-circle"
+            class="btn-flat footer-nav__new-topic"
+            @title="footer_nav.new_topic"
+          />
+        {{/if}}
+
+        {{#if this.currentRouteTopic}}
+          <DButton
+            @action={{this.goShare}}
+            @icon="share-from-square"
+            class="btn-flat footer-nav__share"
+            @title="footer_nav.share"
+          />
+        {{/if}}
 
         {{#if this.currentUser.can_chat}}
           <DButton
             @action={{this.goChat}}
             @icon="d-chat"
-            class="btn-flat btn-large footer-nav__chat
+            class="btn-flat footer-nav__chat
               {{if this.currentRouteChat 'active'}}"
             @title="footer_nav.chat"
           />
@@ -139,7 +190,7 @@ export default class FooterNavExp extends Component {
         <DButton
           @action={{this.toggleHamburger}}
           @icon="bars"
-          class="btn-flat btn-large footer-nav__hamburger"
+          class="btn-flat footer-nav__hamburger"
           @title="footer_nav.search"
         />
 
@@ -147,7 +198,7 @@ export default class FooterNavExp extends Component {
           <DButton
             @action={{this.dismiss}}
             @icon="chevron-down"
-            class="btn-flat btn-large"
+            class="btn-flat footer-nav__dismiss"
             @title="footer_nav.dismiss"
           />
         {{/if}}
