@@ -8,6 +8,7 @@ import DiscourseURL from "discourse/lib/url";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
+import ChatHeaderIconUnreadIndicator from "discourse/plugins/chat/discourse/components/chat/header/icon/unread-indicator";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -183,13 +184,16 @@ export default class FooterNavExp extends Component {
         {{/if}}
 
         {{#if this.currentUser.can_chat}}
-          <DButton
-            @action={{this.goChat}}
-            @icon="d-chat"
-            class="btn-flat footer-nav__chat
-              {{if this.currentRouteChat 'active'}}"
-            @title="footer_nav.chat"
-          />
+          <span class="footer-nav__chat-wrapper">
+            <DButton
+              @action={{this.goChat}}
+              @icon="d-chat"
+              class="btn-flat footer-nav__chat
+                {{if this.currentRouteChat 'active'}}"
+              @title="footer_nav.chat"
+            />
+            <ChatHeaderIconUnreadIndicator />
+          </span>
         {{/if}}
 
         <DButton
