@@ -1,4 +1,4 @@
-// from chat-unread-indicator mixin
+// Copy-pasted from chat-unread-indicator mixin
 @mixin chat-unread-indicator-exp {
   @include unselectable;
   width: 14px;
@@ -33,25 +33,27 @@
       display: none;
     }
   }
+
+  // for tablets
+  .header-sidebar-toggle {
+    display: none;
+  }
 }
 
-.footer-nav-widget {
-  .btn-flat {
+.footer-nav .footer-nav-widget {
+  justify-content: space-evenly;
+
+  .btn {
     font-size: var(--font-up-2);
   }
-  .btn-flat.active,
-  .btn-flat.active .d-icon {
+  .btn.active,
+  .btn.active .d-icon {
     color: var(--tertiary);
   }
 
-  .footer-nav__home.active {
-    position: relative;
-    &::after {
-      content: "ˆ";
-      position: absolute;
-      top: 4px;
-      font-size: 1.25rem;
-    }
+  .footer-nav__item {
+    display: flex;
+    flex: 1;
   }
 
   .footer-nav__chat-wrapper {
@@ -60,9 +62,48 @@
       @include chat-unread-indicator-exp;
       position: absolute;
       top: 10px;
-      right: 12px;
+      right: 50%;
+      margin-right: -18px; // center-right of icon
       border: 2px solid var(--header_background);
-      transform: scale(0.9);
     }
   }
+}
+
+.footer-nav__home-wrapper {
+  .d-icon-discourse-chevron-expand {
+    display: none;
+  }
+}
+
+.mobile-view {
+  .footer-nav__home-wrapper {
+    position: relative;
+
+    &.active .d-icon-discourse-chevron-expand {
+      display: block;
+      position: absolute;
+      font-size: 0.7rem;
+      left: 50%;
+      top: 50%;
+      margin-left: -25px;
+      margin-top: -4px;
+      color: var(--tertiary);
+      opacity: 0.5;
+    }
+  }
+
+  // This styles the back button and make it a bit smaller
+  // it's probably not all that useful
+  // relies on `buttonsLength` in the component
+
+  //   .footer-nav.buttons-5,
+  //   .footer-nav.buttons-6,
+  //   .footer-nav.buttons-7 {
+  //     .footer-nav__back-wrapper {
+  //       flex-grow: 0;
+  //       .btn {
+  //         margin: 0;
+  //       }
+  //     }
+  //   }
 }

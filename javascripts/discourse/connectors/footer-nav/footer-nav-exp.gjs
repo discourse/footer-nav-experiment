@@ -2,13 +2,12 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
-import concatClass from "discourse/helpers/concat-class";
 import htmlClass from "discourse/helpers/html-class";
 import DiscourseURL from "discourse/lib/url";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
-import ChatHeaderIconUnreadIndicator from "discourse/plugins/chat/discourse/components/chat/header/icon/unread-indicator";
+import dIcon from "discourse-common/helpers/d-icon";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -45,8 +44,37 @@ export default class FooterNavExp extends Component {
     }
   }
 
-  get hasChatEnabled() {
-    return true;
+  get buttonsLength() {
+    let count = 3; // home + hamburger + search
+
+    if (this.showBackButton) {
+      count += 1;
+    }
+
+    if (this.showChatButton) {
+      count += 1;
+    }
+
+    // we only show new topic or share, not both at the same time
+    if (this.showNewTopicButton || this.showShareButton) {
+      count += 1;
+    }
+
+    if (this.showDismissButton) {
+      count += 1;
+    }
+
+    return count;
+  }
+
+  get showBackButton() {
+    // or limit to this.currentRouteTopic?
+    return (this.historyStore.hasPastEntries || !!document.referrer)
+    && (this.capabilities.isAppWebview || this.capabilities.isiOSPWA);
+  }
+
+  get showChatButton() {
+    return this.currentUser?.can_chat;
   }
 
   get showNewTopicButton() {
@@ -60,6 +88,10 @@ export default class FooterNavExp extends Component {
 
   get showShareButton() {
     return settings.include_new_topic_button && this.currentRouteTopic;
+  }
+
+  get showDismissButton() {
+    return this.capabilities.isAppWebview;
   }
 
   @action
@@ -109,6 +141,12 @@ export default class FooterNavExp extends Component {
     });
   }
 
+  @action
+  goBack(_, event) {
+    window.history.back();
+    event.preventDefault();
+  }
+
   get isVisible() {
     return (
       [UNSCROLLED, SCROLLED_UP].includes(
@@ -136,6 +174,24 @@ export default class FooterNavExp extends Component {
     return this.router.currentRoute.name.startsWith("topic.");
   }
 
+  get wrapperClassNames() {
+    const classes = ["footer-nav"];
+
+    if (this.isVisible) {
+      classes.push("visible");
+    }
+
+    classes.push(`buttons-${this.buttonsLength}`);
+
+    return classes.join(" ");
+  }
+
+  get chatUnreadIndicator() {
+    // JIT import because local-dates isn't necessarily enabled
+    const ChatIconUnreadIndicator =
+      require("discourse/plugins/chat/discourse/components/chat/header/icon/unread-indicator").default;
+    return ChatIconUnreadIndicator;
+  }
   <template>
     {{this.setDiscourseHubHeaderBg this.modal.activeModal}}
 
@@ -147,44 +203,65 @@ export default class FooterNavExp extends Component {
       {{htmlClass "footer-nav-visible"}}
     {{/if}}
 
-    <div class={{concatClass "footer-nav" (if this.isVisible "visible")}}>
+    <div class={{this.wrapperClassNames}}>
       <div class="footer-nav-widget">
-        <DButton
-          @action={{this.goHome}}
-          @icon="home"
-          class="btn-flat footer-nav__home
-            {{if this.currentRouteHome 'active'}}"
-          @title="footer_nav.home"
-        />
+        <span class="footer-nav__item footer-nav__home-wrapper {{if this.currentRouteHome 'active'}}">
+          <DButton
+            @action={{this.goHome}}
+            @icon="home"
+            class="btn-flat footer-nav__home
+              {{if this.currentRouteHome 'active'}}"
+            @title="footer_nav.home"
+          />
+          {{dIcon "discourse-chevron-expand"}}
+        </span>
 
-        <DButton
-          @action={{this.goSearch}}
-          @icon="search"
-          class="btn-flat footer-nav__search
-            {{if this.currentRouteSearch 'active'}}"
-          @title="footer_nav.search"
-        />
+        {{#if this.showBackButton}}
+          <span class="footer-nav__item footer-nav__back-wrapper">
+            <DButton
+              @action={{this.goBack}}
+              @icon="chevron-left"
+              class="btn-flat footer-nav__back"
+              @title="footer_nav.back"
+              @forwardEvent={{true}}
+            />
+          </span>
+        {{/if}}
+
+        <span class="footer-nav__item">
+          <DButton
+            @action={{this.goSearch}}
+            @icon="search"
+            class="btn-flat footer-nav__search
+              {{if this.currentRouteSearch 'active'}}"
+            @title="footer_nav.search"
+          />
+        </span>
 
         {{#if this.showNewTopicButton}}
-          <DButton
-            @action={{this.goNewTopic}}
-            @icon="plus-circle"
-            class="btn-flat footer-nav__new-topic"
-            @title="footer_nav.new_topic"
-          />
+          <span class="footer-nav__item">
+            <DButton
+              @action={{this.goNewTopic}}
+              @icon="plus-circle"
+              class="btn-flat footer-nav__new-topic"
+              @title="footer_nav.new_topic"
+            />
+          </span>
         {{/if}}
 
         {{#if this.showShareButton}}
-          <DButton
-            @action={{this.goShare}}
-            @icon="share-from-square"
-            class="btn-flat footer-nav__share"
-            @title="footer_nav.share"
-          />
+          <span class="footer-nav__item">
+            <DButton
+              @action={{this.goShare}}
+              @icon="share-from-square"
+              class="btn-flat footer-nav__share"
+              @title="footer_nav.share"
+            />
+          </span>
         {{/if}}
 
-        {{#if this.currentUser.can_chat}}
-          <span class="footer-nav__chat-wrapper">
+        {{#if this.showChatButton}}
+          <span class="footer-nav__item footer-nav__chat-wrapper">
             <DButton
               @action={{this.goChat}}
               @icon="d-chat"
@@ -192,24 +269,28 @@ export default class FooterNavExp extends Component {
                 {{if this.currentRouteChat 'active'}}"
               @title="footer_nav.chat"
             />
-            <ChatHeaderIconUnreadIndicator />
+            {{this.chatUnreadIndicator}}
           </span>
         {{/if}}
 
-        <DButton
-          @action={{this.toggleHamburger}}
-          @icon="bars"
-          class="btn-flat footer-nav__hamburger"
-          @title="footer_nav.search"
-        />
-
-        {{#if this.capabilities.isAppWebview}}
+        <span class="footer-nav__item">
           <DButton
-            @action={{this.dismiss}}
-            @icon="chevron-down"
-            class="btn-flat footer-nav__dismiss"
-            @title="footer_nav.dismiss"
+            @action={{this.toggleHamburger}}
+            @icon="bars"
+            class="btn-flat footer-nav__hamburger"
+            @title="footer_nav.search"
           />
+        </span>
+
+        {{#if this.showDismissButton}}
+          <span class="footer-nav__item footer-nav__dismiss-wrapper">
+            <DButton
+              @action={{this.dismiss}}
+              @icon="chevron-down"
+              class="btn-flat footer-nav__dismiss"
+              @title="footer_nav.dismiss"
+            />
+          </span>
         {{/if}}
       </div>
     </div>
