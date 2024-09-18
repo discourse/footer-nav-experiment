@@ -69,8 +69,10 @@ export default class FooterNavExp extends Component {
 
   get showBackButton() {
     // or limit to this.currentRouteTopic?
-    return (this.historyStore.hasPastEntries || !!document.referrer)
-    && (this.capabilities.isAppWebview || this.capabilities.isiOSPWA);
+    return (
+      (this.historyStore.hasPastEntries || !!document.referrer) &&
+      (this.capabilities.isAppWebview || this.capabilities.isiOSPWA)
+    );
   }
 
   get showChatButton() {
@@ -205,7 +207,10 @@ export default class FooterNavExp extends Component {
 
     <div class={{this.wrapperClassNames}}>
       <div class="footer-nav-widget">
-        <span class="footer-nav__item footer-nav__home-wrapper {{if this.currentRouteHome 'active'}}">
+        <span
+          class="footer-nav__item footer-nav__home-wrapper
+            {{if this.currentRouteHome 'active'}}"
+        >
           <DButton
             @action={{this.goHome}}
             @icon="home"
