@@ -114,6 +114,11 @@ export default class FooterNavExp extends Component {
 
   @action
   goChat() {
+    // sourced from plugins/chat/assets/javascripts/discourse/components/chat/header/icon.gjs
+    if (this.chatStateManager.isFullPageActive) {
+      return DiscourseURL.routeTo("/chat");
+    }
+
     DiscourseURL.routeTo(this.chatStateManager.lastKnownChatURL || "/chat");
   }
 
