@@ -12,12 +12,13 @@ import dIcon from "discourse-common/helpers/d-icon";
 export default class FooterNavExp extends Component {
   @service appEvents;
   @service capabilities;
-  @service scrollDirection;
+  @service chatStateManager;
   @service composer;
-  @service modal;
-  @service historyStore;
   @service currentUser;
+  @service historyStore;
+  @service modal;
   @service router;
+  @service scrollDirection;
   @service siteSettings;
 
   _modalOn() {
@@ -113,7 +114,7 @@ export default class FooterNavExp extends Component {
 
   @action
   goChat() {
-    DiscourseURL.routeTo(`/chat`);
+    DiscourseURL.routeTo(this.chatStateManager.lastKnownChatURL || "/chat");
   }
 
   @action
