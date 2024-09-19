@@ -45,7 +45,7 @@ export default class FooterNavExp extends Component {
   }
 
   get buttonsLength() {
-    let count = 3; // home + hamburger + search
+    let count = 2; // home + hamburger
 
     if (this.showBackButton) {
       count += 1;
@@ -112,11 +112,6 @@ export default class FooterNavExp extends Component {
   }
 
   @action
-  goSearch() {
-    DiscourseURL.routeTo(`/search`);
-  }
-
-  @action
   goChat() {
     DiscourseURL.routeTo(`/chat`);
   }
@@ -164,10 +159,6 @@ export default class FooterNavExp extends Component {
     return topMenuRouteNames.includes(this.router.currentRoute.name);
   }
 
-  get currentRouteSearch() {
-    return this.router.currentRoute.name === "full-page-search";
-  }
-
   get currentRouteChat() {
     return this.router.currentRoute.name.startsWith("chat.");
   }
@@ -207,6 +198,17 @@ export default class FooterNavExp extends Component {
 
     <div class={{this.wrapperClassNames}}>
       <div class="footer-nav-widget">
+        {{#if this.showBackButton}}
+          <span class="footer-nav__item footer-nav__back-wrapper">
+            <DButton
+              @action={{this.goBack}}
+              @icon="chevron-left"
+              class="btn-flat footer-nav__back"
+              @forwardEvent={{true}}
+            />
+          </span>
+        {{/if}}
+
         <span
           class="footer-nav__item footer-nav__home-wrapper
             {{if this.currentRouteHome 'active'}}"
@@ -216,31 +218,8 @@ export default class FooterNavExp extends Component {
             @icon="home"
             class="btn-flat footer-nav__home
               {{if this.currentRouteHome 'active'}}"
-            @title="footer_nav.home"
           />
           {{dIcon "discourse-chevron-expand"}}
-        </span>
-
-        {{#if this.showBackButton}}
-          <span class="footer-nav__item footer-nav__back-wrapper">
-            <DButton
-              @action={{this.goBack}}
-              @icon="chevron-left"
-              class="btn-flat footer-nav__back"
-              @title="footer_nav.back"
-              @forwardEvent={{true}}
-            />
-          </span>
-        {{/if}}
-
-        <span class="footer-nav__item">
-          <DButton
-            @action={{this.goSearch}}
-            @icon="search"
-            class="btn-flat footer-nav__search
-              {{if this.currentRouteSearch 'active'}}"
-            @title="footer_nav.search"
-          />
         </span>
 
         {{#if this.showNewTopicButton}}
@@ -249,7 +228,6 @@ export default class FooterNavExp extends Component {
               @action={{this.goNewTopic}}
               @icon="plus-circle"
               class="btn-flat footer-nav__new-topic"
-              @title="footer_nav.new_topic"
             />
           </span>
         {{/if}}
@@ -260,7 +238,6 @@ export default class FooterNavExp extends Component {
               @action={{this.goShare}}
               @icon="share-from-square"
               class="btn-flat footer-nav__share"
-              @title="footer_nav.share"
             />
           </span>
         {{/if}}
@@ -283,7 +260,6 @@ export default class FooterNavExp extends Component {
             @action={{this.toggleHamburger}}
             @icon="bars"
             class="btn-flat footer-nav__hamburger"
-            @title="footer_nav.search"
           />
         </span>
 
@@ -293,7 +269,6 @@ export default class FooterNavExp extends Component {
               @action={{this.dismiss}}
               @icon="chevron-down"
               class="btn-flat footer-nav__dismiss"
-              @title="footer_nav.dismiss"
             />
           </span>
         {{/if}}
