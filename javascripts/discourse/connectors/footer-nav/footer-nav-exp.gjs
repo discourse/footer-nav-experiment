@@ -8,6 +8,9 @@ import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
 import dIcon from "discourse-common/helpers/d-icon";
+import concatClass from "discourse/helpers/concat-class";
+import DMenu from "float-kit/components/d-menu";
+import DropdownMenu from "discourse/components/dropdown-menu";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -70,10 +73,7 @@ export default class FooterNavExp extends Component {
 
   get showBackButton() {
     // or limit to this.currentRouteTopic?
-    return (
-      (this.historyStore.hasPastEntries || !!document.referrer) &&
-      (this.capabilities.isAppWebview || this.capabilities.isiOSPWA)
-    );
+    return this.capabilities.isAppWebview || this.capabilities.isiOSPWA;
   }
 
   get showChatButton() {
@@ -91,10 +91,6 @@ export default class FooterNavExp extends Component {
 
   get showShareButton() {
     return settings.include_new_topic_button && this.currentRouteTopic;
-  }
-
-  get showDismissButton() {
-    return this.capabilities.isAppWebview;
   }
 
   @action
@@ -120,6 +116,11 @@ export default class FooterNavExp extends Component {
     }
 
     DiscourseURL.routeTo(this.chatStateManager.lastKnownChatURL || "/chat");
+  }
+
+  @action
+  onRegisterApi(api) {
+    this.dMenu = api;
   }
 
   @action
@@ -205,19 +206,29 @@ export default class FooterNavExp extends Component {
     <div class={{this.wrapperClassNames}}>
       <div class="footer-nav-widget">
         {{#if this.showBackButton}}
-          <span class="footer-nav__item footer-nav__back-wrapper">
+          <span class="footer-nav__item --back">
             <DButton
               @action={{this.goBack}}
               @icon="chevron-left"
-              class="btn-flat footer-nav__back"
+              class={{concatClass
+                "btn-flat footer-nav__back"
+                (unless this.showBackButton "--disabled")
+              }}
               @forwardEvent={{true}}
             />
           </span>
         {{/if}}
 
+        <span class="footer-nav__item --menu">
+          <DButton
+            @action={{this.goNewTopic}}
+            @icon="bars"
+            class="btn-flat footer-nav__hamburger"
+          />
+        </span>
+
         <span
-          class="footer-nav__item footer-nav__home-wrapper
-            {{if this.currentRouteHome 'active'}}"
+          class="footer-nav__item --home {{if this.currentRouteHome 'active'}}"
         >
           <DButton
             @action={{this.goHome}}
@@ -225,21 +236,10 @@ export default class FooterNavExp extends Component {
             class="btn-flat footer-nav__home
               {{if this.currentRouteHome 'active'}}"
           />
-          {{dIcon "discourse-chevron-expand"}}
         </span>
 
-        {{#if this.showNewTopicButton}}
-          <span class="footer-nav__item">
-            <DButton
-              @action={{this.goNewTopic}}
-              @icon="plus-circle"
-              class="btn-flat footer-nav__new-topic"
-            />
-          </span>
-        {{/if}}
-
         {{#if this.showShareButton}}
-          <span class="footer-nav__item">
+          <span class="footer-nav__item --share">
             <DButton
               @action={{this.goShare}}
               @icon="share-from-square"
@@ -249,7 +249,7 @@ export default class FooterNavExp extends Component {
         {{/if}}
 
         {{#if this.showChatButton}}
-          <span class="footer-nav__item footer-nav__chat-wrapper">
+          <span class="footer-nav__item --chat">
             <DButton
               @action={{this.goChat}}
               @icon="d-chat"
@@ -261,23 +261,40 @@ export default class FooterNavExp extends Component {
           </span>
         {{/if}}
 
-        <span class="footer-nav__item">
-          <DButton
-            @action={{this.toggleHamburger}}
-            @icon="bars"
-            class="btn-flat footer-nav__hamburger"
-          />
-        </span>
+        <span class="footer-nav__item --new">
+          <DMenu
+            @identifier="new-menu"
+            @title="new"
+            @icon="plus"
+            @class="btn-transparent footer-nav__new-topic"
+            @onRegisterApi={{this.onRegisterApi}}
+            @modalForMobile={{true}}
+          >
+            <:content>
+              <DropdownMenu as |dropdown|>
 
-        {{#if this.showDismissButton}}
-          <span class="footer-nav__item footer-nav__dismiss-wrapper">
-            <DButton
-              @action={{this.dismiss}}
-              @icon="chevron-down"
-              class="btn-flat footer-nav__dismiss"
-            />
-          </span>
-        {{/if}}
+                <dropdown.item>
+
+                  <DButton
+                    @label="New topic"
+                    @action={{this.goNewTopic}}
+                    @icon="far-pen-to-square"
+                    class="btn-transparent"
+                  />
+                </dropdown.item>
+                <dropdown.item>
+
+                  <button class="btn btn-transparent">{{dIcon "comment"}}
+                    New chat</button>
+                </dropdown.item>
+                <dropdown.item>
+                  <button class="btn btn-transparent">{{dIcon "envelope"}}
+                    New PM</button>
+                </dropdown.item>
+              </DropdownMenu>
+            </:content>
+          </DMenu>
+        </span>
       </div>
     </div>
   </template>
