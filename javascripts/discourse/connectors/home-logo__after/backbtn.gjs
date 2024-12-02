@@ -10,7 +10,6 @@ export default class BackBtn extends Component {
   @service header;
 
   get isTopicTitleVisible() {
-    console.log(this.header.topicInfoVisible);
     if (
       (this.currentRouteChat || this.currentRouteTopic) &&
       this.header.topicInfoVisible
@@ -40,7 +39,7 @@ export default class BackBtn extends Component {
       <DButton
         @action={{this.goBack}}
         @icon="chevron-left"
-        class="btn-transparent c-header__back"
+        class="btn-transparent d-header__back"
         @forwardEvent={{true}}
       />
     {{/if}}

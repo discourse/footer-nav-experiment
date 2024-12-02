@@ -1,7 +1,11 @@
+.d-header .title {
+  display: none;
+}
+
 .home-logo-wrapper-outlet {
   align-self: stretch;
 
-  .c-header__back {
+  .d-header__back {
     height: 100%;
     padding-left: 0;
   }
@@ -36,6 +40,7 @@
       border-bottom: var(--d-nav-underline-height) solid
         var(--d-nav-color--active);
     }
+
     .d-icon {
       display: none;
     }
