@@ -73,7 +73,8 @@ export default class FooterNavExp extends Component {
 
   get showBackButton() {
     // or limit to this.currentRouteTopic?
-    return this.capabilities.isAppWebview || this.capabilities.isiOSPWA;
+    // return this.capabilities.isAppWebview || this.capabilities.isiOSPWA;
+    return true;
   }
 
   get showChatButton() {
@@ -81,12 +82,14 @@ export default class FooterNavExp extends Component {
   }
 
   get showNewTopicButton() {
-    return (
-      this.currentUser?.can_create_topic &&
-      settings.include_new_topic_button &&
-      !this.currentRouteTopic &&
-      !this.currentRouteChat
-    );
+    return true;
+    //needs updating for chat and PMs
+    // return (
+    //   this.currentUser?.can_create_topic &&
+    //   settings.include_new_topic_button &&
+    //   !this.currentRouteTopic &&
+    //   !this.currentRouteChat
+    // );
   }
 
   get showShareButton() {
@@ -205,7 +208,7 @@ export default class FooterNavExp extends Component {
 
     <div class={{this.wrapperClassNames}}>
       <div class="footer-nav-widget">
-        {{#if this.showBackButton}}
+        {{!-- {{#if this.showBackButton}}
           <span class="footer-nav__item --back">
             <DButton
               @action={{this.goBack}}
@@ -217,11 +220,11 @@ export default class FooterNavExp extends Component {
               @forwardEvent={{true}}
             />
           </span>
-        {{/if}}
+        {{/if}} --}}
 
         <span class="footer-nav__item --menu">
           <DButton
-            @action={{this.goNewTopic}}
+            @action={{this.toggleHamburger}}
             @icon="bars"
             class="btn-flat footer-nav__hamburger"
           />
@@ -238,7 +241,7 @@ export default class FooterNavExp extends Component {
           />
         </span>
 
-        {{#if this.showShareButton}}
+        {{!-- {{#if this.showShareButton}}
           <span class="footer-nav__item --share">
             <DButton
               @action={{this.goShare}}
@@ -246,20 +249,7 @@ export default class FooterNavExp extends Component {
               class="btn-flat footer-nav__share"
             />
           </span>
-        {{/if}}
-
-        {{#if this.showChatButton}}
-          <span class="footer-nav__item --chat">
-            <DButton
-              @action={{this.goChat}}
-              @icon="d-chat"
-              class="btn-flat footer-nav__chat
-                {{if this.currentRouteChat 'active'}}"
-              @title="footer_nav.chat"
-            />
-            {{this.chatUnreadIndicator}}
-          </span>
-        {{/if}}
+        {{/if}} --}}
 
         <span class="footer-nav__item --new">
           <DMenu
@@ -295,6 +285,28 @@ export default class FooterNavExp extends Component {
             </:content>
           </DMenu>
         </span>
+
+        {{#if this.showChatButton}}
+          <span class="footer-nav__item --chat">
+            <DButton
+              @action={{this.goChat}}
+              @icon="d-chat"
+              class="btn-flat footer-nav__chat
+                {{if this.currentRouteChat 'active'}}"
+              @title="footer_nav.chat"
+            />
+            {{this.chatUnreadIndicator}}
+          </span>
+        {{/if}}
+
+        <span class="footer-nav__item --usermenu">
+          <DButton
+            @action={{this.toggleHamburger}}
+            @icon="bars"
+            class="btn-flat footer-nav__usermenu"
+          />
+        </span>
+
       </div>
     </div>
   </template>
