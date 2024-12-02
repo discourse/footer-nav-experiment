@@ -1,4 +1,4 @@
-.d-header .title {
+.d-header:has(.d-header__back) .title {
   display: none;
 }
 
