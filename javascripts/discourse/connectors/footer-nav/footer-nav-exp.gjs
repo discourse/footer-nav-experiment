@@ -11,6 +11,8 @@ import dIcon from "discourse-common/helpers/d-icon";
 import concatClass from "discourse/helpers/concat-class";
 import DMenu from "float-kit/components/d-menu";
 import DropdownMenu from "discourse/components/dropdown-menu";
+import UserDropdown from "discourse/components/header/user-dropdown/notifications";
+import { on } from "@ember/modifier";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -134,6 +136,13 @@ export default class FooterNavExp extends Component {
   }
 
   @action
+  toggleUserMenu() {
+    this.appEvents.trigger("header:keyboard-trigger", {
+      type: "user",
+    });
+  }
+
+  @action
   goNewTopic() {
     // If the page has a create-topic button, use it for context sensitive attributes like category
     const createTopicButton = document.querySelector("#create-topic");
@@ -148,11 +157,11 @@ export default class FooterNavExp extends Component {
     });
   }
 
-  @action
-  goBack(_, event) {
-    window.history.back();
-    event.preventDefault();
-  }
+  // @action
+  // goBack(_, event) {
+  //   window.history.back();
+  //   event.preventDefault();
+  // }
 
   get isVisible() {
     return (
@@ -300,11 +309,12 @@ export default class FooterNavExp extends Component {
         {{/if}}
 
         <span class="footer-nav__item --usermenu">
-          <DButton
-            @action={{this.toggleHamburger}}
-            @icon="bars"
-            class="btn-flat footer-nav__usermenu"
-          />
+          <button
+            class="btn btn-transparent btn-no-text footer-nav__user-menu"
+            {{on "click" this.toggleUserMenu}}
+          >
+            <UserDropdown {{this.handleFocus}} />
+          </button>
         </span>
 
       </div>
