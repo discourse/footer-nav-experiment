@@ -1,4 +1,5 @@
 import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
@@ -13,6 +14,7 @@ import DMenu from "float-kit/components/d-menu";
 import DropdownMenu from "discourse/components/dropdown-menu";
 import UserDropdown from "discourse/components/header/user-dropdown/notifications";
 import { on } from "@ember/modifier";
+import getURL from "discourse-common/lib/get-url";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -25,6 +27,23 @@ export default class FooterNavExp extends Component {
   @service router;
   @service scrollDirection;
   @service siteSettings;
+  @tracked previousURL;
+
+  constructor() {
+    super(...arguments);
+    this.router.on("routeDidChange", this, this.#updatePreviousURL);
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    this.router.off("routeDidChange", this, this.#updatePreviousURL);
+  }
+
+  #updatePreviousURL() {
+    if (!this.currentRouteChat) {
+      this.previousURL = this.router.currentURL;
+    }
+  }
 
   _modalOn() {
     postRNWebviewMessage("headerBg", "rgb(0, 0, 0)");
@@ -110,7 +129,16 @@ export default class FooterNavExp extends Component {
       event.preventDefault();
       return;
     }
-    DiscourseURL.routeTo(`/`);
+    if (this.currentRouteChat) {
+      const url = getURL(this.previousURL);
+      if (url) {
+        DiscourseURL.routeTo(url);
+      } else {
+        DiscourseURL.routeTo(`/`);
+      }
+    } else {
+      DiscourseURL.routeTo(`/`);
+    }
   }
 
   @action
@@ -273,13 +301,16 @@ export default class FooterNavExp extends Component {
               <DropdownMenu as |dropdown|>
 
                 <dropdown.item>
-
-                  <DButton
-                    @label="New topic"
+                  <button class="btn btn-transparent">{{dIcon
+                      "far-pen-to-square"
+                    }}
+                    New topic</button>
+                  {{!-- <DButton
+                    @label="fckn nothing"
                     @action={{this.goNewTopic}}
                     @icon="far-pen-to-square"
                     class="btn-transparent"
-                  />
+                  /> --}}
                 </dropdown.item>
                 <dropdown.item>
 
