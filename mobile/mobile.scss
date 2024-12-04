@@ -1,64 +1,128 @@
-.d-header:has(.d-header__back) .title {
-  display: none;
-}
-
-.home-logo-wrapper-outlet {
-  align-self: stretch;
-
-  .d-header__back {
-    height: 100%;
-    padding-left: 0;
+.footer-nav-experiment-present {
+  $footer-nav-height: 3em;
+  #main-outlet {
+    padding-top: 0;
   }
-}
-.c-header .c-heading {
-  display: none;
-}
-.full-page-chat #main-chat-outlet.chat-view {
-  grid-template-areas:
-    "footer"
-    "list";
-
-  //def not okay css, demo purpose
-  &:has(.c-footer) {
-    .c-navbar-container {
-      display: none;
-    }
+  #navigation-bar,
+  .navigation-controls {
+    margin-bottom: 0;
   }
-}
 
-.c-footer {
-  padding: 0 var(--d-wrap-padding-h) !important;
-  justify-content: space-between;
-  height: var(--footer-nav-height);
-
-  &__item {
-    flex-basis: unset;
-    flex-direction: row;
-    flex-grow: unset;
-    gap: 0.25em;
-    &.--active {
-      border-bottom: var(--d-nav-underline-height) solid
-        var(--d-nav-color--active);
-    }
-
-    .d-icon {
+  .fk-d-button-tooltip {
+    margin-right: 0;
+  }
+  .d-header {
+    height: 3em;
+    &:has(.d-header__back) .title {
       display: none;
     }
 
-    .c-unread-indicator {
-      position: unset;
-      margin-left: unset;
-
-      &.-urgent {
-        margin-left: unset;
-        height: 0.75em;
-        width: min-content;
-        min-width: unset;
-        padding: 0.21em 0.32em;
+    .title {
+      a {
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+      #site-logo {
+        height: clamp(2em, 66%, 100%);
       }
     }
-    .c-unread-indicator__number {
-      font-size: var(--font-down-1);
+
+    .panel {
+      height: 100%;
+    }
+
+    .d-header-icons {
+      height: 100%;
+      .d-icon {
+        font-size: var(--font-up-2-rem);
+        width: 1em;
+      }
+      .icon {
+        height: 100%;
+        box-sizing: border-box;
+        padding: 0.5em 0.65em;
+        width: auto;
+      }
+    }
+  }
+
+  .has-full-page-chat .--channels {
+    .d-header-wrap {
+      display: none;
+    }
+  }
+
+  .home-logo-wrapper-outlet {
+    align-self: stretch;
+
+    .d-header__back {
+      height: 100%;
+      padding-left: 0;
+    }
+  }
+
+  .c-header .c-heading {
+    display: none;
+  }
+
+  .full-page-chat {
+    #main-chat-outlet.chat-view {
+      grid-template-areas:
+        "footer"
+        "list";
+      grid-template-rows: auto 1fr;
+
+      //def not okay css, demo purpose
+      &:has(.c-footer) {
+        .c-navbar-container {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .c-header {
+    height: 100%;
+  }
+
+  .c-footer {
+    position: sticky;
+    top: 0;
+    padding: 0 var(--d-wrap-padding-h) !important;
+    justify-content: space-between;
+    height: 3em;
+
+    &__item {
+      flex-basis: unset;
+      flex-direction: row;
+      flex-grow: unset;
+      gap: 0.25em;
+      &.--active {
+        border-bottom: var(--d-nav-underline-height) solid
+          var(--d-nav-color--active);
+      }
+
+      .d-icon {
+        display: none;
+      }
+
+      .c-unread-indicator {
+        position: unset;
+        margin-left: unset;
+
+        &.-urgent {
+          margin-left: unset;
+          height: 0.75em;
+          width: min-content;
+          min-width: unset;
+          padding: 0.21em 0.32em;
+        }
+      }
+      .c-unread-indicator__number {
+        font-size: var(--font-down-1);
+      }
     }
   }
 }

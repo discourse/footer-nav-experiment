@@ -15,6 +15,7 @@ import DropdownMenu from "discourse/components/dropdown-menu";
 import UserDropdown from "discourse/components/header/user-dropdown/notifications";
 import { on } from "@ember/modifier";
 import getURL from "discourse-common/lib/get-url";
+import { i18n } from "discourse-i18n";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -301,16 +302,16 @@ export default class FooterNavExp extends Component {
               <DropdownMenu as |dropdown|>
 
                 <dropdown.item>
-                  <button class="btn btn-transparent">{{dIcon
+                  {{!-- <button class="btn btn-transparent">{{dIcon
                       "far-pen-to-square"
                     }}
-                    New topic</button>
-                  {{!-- <DButton
-                    @label="fckn nothing"
+                    New topic</button> --}}
+                  <DButton
+                    @label={{themePrefix "mobile_footer.new_topic"}}
                     @action={{this.goNewTopic}}
                     @icon="far-pen-to-square"
                     class="btn-transparent"
-                  /> --}}
+                  />
                 </dropdown.item>
                 <dropdown.item>
 
