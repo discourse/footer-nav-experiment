@@ -65,7 +65,25 @@
         box-sizing: border-box;
         padding: 0.5em 0.65em;
         width: auto;
+
+        img.avatar {
+          width: revert-layer;
+          height: revert-layer;
+        }
       }
+    }
+  }
+
+  #toggle-current-user {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .user-menu-dropdown-wrapper {
+    .bottom-tabs {
+      display: none;
     }
   }
 
