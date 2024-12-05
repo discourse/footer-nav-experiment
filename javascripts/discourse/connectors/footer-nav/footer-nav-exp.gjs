@@ -153,6 +153,11 @@ export default class FooterNavExp extends Component {
   }
 
   @action
+  goSearch() {
+    return DiscourseURL.routeTo("/search");
+  }
+
+  @action
   onRegisterApi(api) {
     this.dMenu = api;
   }
@@ -215,6 +220,10 @@ export default class FooterNavExp extends Component {
     return this.router.currentRoute.name.startsWith("topic.");
   }
 
+  get currentRouteSearch() {
+    return this.router.currentRoute.name.startsWith("full-page-search");
+  }
+
   get wrapperClassNames() {
     const classes = ["footer-nav"];
 
@@ -268,9 +277,7 @@ export default class FooterNavExp extends Component {
           />
         </span>
 
-        <span
-          class="footer-nav__item --home {{if this.currentRouteHome 'active'}}"
-        >
+        <span class="footer-nav__item --home">
           <DButton
             @action={{this.goHome}}
             @icon="home"
@@ -339,15 +346,25 @@ export default class FooterNavExp extends Component {
             {{this.chatUnreadIndicator}}
           </span>
         {{/if}}
+        <span class="footer-nav__item --search">
+          <button
+            class="btn btn-transparent btn-no-text footer-nav__search
+              {{if this.currentRouteSearch 'active'}}"
+            {{on "click" this.goSearch}}
+          >
+            {{dIcon "search"}}
 
-        <span class="footer-nav__item --usermenu">
+          </button>
+        </span>
+
+        {{!-- <span class="footer-nav__item --usermenu">
           <button
             class="btn btn-transparent btn-no-text footer-nav__user-menu"
             {{on "click" this.toggleUserMenu}}
           >
             <UserDropdown {{this.handleFocus}} />
           </button>
-        </span>
+        </span> --}}
 
       </div>
     </div>
