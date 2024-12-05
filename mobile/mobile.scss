@@ -1,18 +1,39 @@
 .footer-nav-experiment-present {
-  $footer-nav-height: 3em;
-  #main-outlet {
-    padding-top: 0;
+  &:has(.c-routes.--channel) {
+    .d-header {
+      display: none;
+    }
   }
+
+  .navigation-container {
+    height: 3.25em;
+
+    .navigation-controls {
+      align-items: center;
+    }
+  }
+
+  $footer-nav-height: 3em;
+
   #navigation-bar,
   .navigation-controls {
     margin-bottom: 0;
   }
 
+  .navigation-controls {
+    gap: 0.5rem;
+    .bulk-select {
+      margin: 0;
+    }
+  }
+
   .fk-d-button-tooltip {
     margin-right: 0;
+    display: none;
   }
+
   .d-header {
-    height: 3em;
+    height: 3.25em;
     &:has(.d-header__back) .title {
       display: none;
     }
@@ -36,7 +57,7 @@
     .d-header-icons {
       height: 100%;
       .d-icon {
-        font-size: var(--font-up-2-rem);
+        font-size: var(--font-up-3-rem);
         width: 1em;
       }
       .icon {
@@ -88,11 +109,12 @@
   }
 
   .c-footer {
+    box-sizing: border-box;
     position: sticky;
     top: 0;
     padding: 0 var(--d-wrap-padding-h) !important;
     justify-content: space-between;
-    height: 3em;
+    height: 3.25em;
 
     &__item {
       flex-basis: unset;
@@ -102,6 +124,10 @@
       &.--active {
         border-bottom: var(--d-nav-underline-height) solid
           var(--d-nav-color--active);
+      }
+
+      .d-button-label {
+        font-size: var(--font-0);
       }
 
       .d-icon {

@@ -40,7 +40,7 @@
   }
 
   .footer-nav {
-    height: calc(3em - max(5px, env(safe-area-inset-bottom)));
+    height: calc(3.25em - max(5px, env(safe-area-inset-bottom)));
     backdrop-filter: blur(10px);
   }
 
@@ -49,7 +49,7 @@
 
     .btn {
       justify-content: center;
-      font-size: var(--font-up-2-rem);
+      font-size: var(--font-up-3-rem);
       margin: 0;
     }
     .btn.active,
@@ -68,8 +68,8 @@
         top: 50%;
         left: 50%;
         transform: translate(
-          calc(-50% + calc(var(--font-up-2-rem) / 2)),
-          calc(-50% - calc(var(--font-up-2-rem) / 2))
+          calc(-50% + calc(var(--font-up-3-rem) / 2)),
+          calc(-50% - calc(var(--font-up-3-rem) / 2))
         );
         border: 2px solid var(--header_background);
       }
@@ -86,8 +86,8 @@
       position: relative;
 
       .avatar {
-        height: var(--font-up-2-rem);
-        width: var(--font-up-2-rem);
+        height: var(--font-up-3-rem);
+        width: var(--font-up-3-rem);
       }
 
       .user-status-background {
@@ -98,11 +98,16 @@
         border-radius: 50%;
         position: absolute;
         right: 0;
-        top: 50%;
+        top: 45%;
         z-index: 1002;
-        transform: translateX(-40%);
-        width: 20px;
-        height: 20px;
+        transform: translateX(-50%);
+        width: 17px;
+        height: 17px;
+
+        .emoji {
+          width: 12px;
+          height: 12px;
+        }
       }
     }
   }
