@@ -322,11 +322,15 @@ export default class FooterNavExp extends Component {
                 </dropdown.item>
                 <dropdown.item>
 
-                  <button class="btn btn-transparent">{{dIcon "comment"}}
+                  <button class="btn btn-transparent" role="button">{{dIcon
+                      "comment"
+                    }}
                     New chat</button>
                 </dropdown.item>
                 <dropdown.item>
-                  <button class="btn btn-transparent">{{dIcon "envelope"}}
+                  <button class="btn btn-transparent" role="button">{{dIcon
+                      "envelope"
+                    }}
                     New PM</button>
                 </dropdown.item>
               </DropdownMenu>
@@ -348,6 +352,7 @@ export default class FooterNavExp extends Component {
         {{/if}}
         <span class="footer-nav__item --search">
           <button
+            role="button"
             class="btn btn-transparent no-text footer-nav__search
               {{if this.currentRouteSearch 'active'}}"
             {{on "click" this.goSearch}}

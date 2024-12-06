@@ -1,9 +1,6 @@
 import Component from "@glimmer/component";
 import { service } from "@ember/service";
-import dIcon from "discourse-common/helpers/d-icon";
 import DMenu from "float-kit/components/d-menu";
-import DropdownMenu from "discourse/components/dropdown-menu";
-import DButton from "discourse/components/d-button";
 import avatar from "discourse/helpers/avatar";
 import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
 import UserMenuProfileTabContent from "discourse/components/user-menu/profile-tab-content";
@@ -20,6 +17,10 @@ export default class userMenu extends Component {
       >
         <:trigger>
           {{avatar this.currentUser imageSize="small"}}
+          <UserStatusMenu
+            @timezone={{this.this.currentUser.user_option.timezone}}
+            @status={{this.currentUser.status}}
+          />
         </:trigger>
 
         <:content>
