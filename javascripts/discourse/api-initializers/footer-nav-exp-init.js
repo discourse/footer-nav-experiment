@@ -7,7 +7,7 @@ export default apiInitializer("1.8.0", (api) => {
   //   () => "tiny"
   // );
 
-  api.headerIcons.delete("search");
+  // api.headerIcons.delete("search");
 
   api.modifyClass("controller:application", {
     pluginId: "footer-nav-experiment",

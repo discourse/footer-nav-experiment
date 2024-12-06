@@ -2,9 +2,11 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
+import { and } from "truth-helpers";
 
 export default class BackBtn extends Component {
   @service router;
+  @service site;
   @service header;
 
   get isTopicTitleVisible() {
@@ -33,7 +35,7 @@ export default class BackBtn extends Component {
   }
 
   <template>
-    {{#if this.isTopicTitleVisible}}
+    {{#if (and this.isTopicTitleVisible this.site.mobileView)}}
       <DButton
         @action={{this.goBack}}
         @icon="chevron-left"
