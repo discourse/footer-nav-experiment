@@ -1,4 +1,9 @@
 .footer-nav-experiment-present {
+  &.keyboard-visible {
+    .footer-nav {
+      display: none;
+    }
+  }
   &:has(.c-routes.--channel) {
     .d-header {
       display: none;
