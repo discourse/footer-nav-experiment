@@ -1,8 +1,8 @@
 import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
-import DButton from "discourse/components/d-button";
 import { and } from "truth-helpers";
+import DButton from "discourse/components/d-button";
 
 export default class BackBtn extends Component {
   @service router;
