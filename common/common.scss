@@ -40,7 +40,7 @@
   }
 
   .footer-nav {
-    height: calc(3.25em - max(5px, env(safe-area-inset-bottom)));
+    height: calc(3.25em + max(5px, env(safe-area-inset-bottom)));
     backdrop-filter: blur(10px);
   }
 
