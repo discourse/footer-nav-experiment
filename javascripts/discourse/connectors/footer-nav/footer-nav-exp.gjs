@@ -9,13 +9,10 @@ import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
 import dIcon from "discourse-common/helpers/d-icon";
-import concatClass from "discourse/helpers/concat-class";
 import DMenu from "float-kit/components/d-menu";
 import DropdownMenu from "discourse/components/dropdown-menu";
-import UserDropdown from "discourse/components/header/user-dropdown/notifications";
 import { on } from "@ember/modifier";
 import getURL from "discourse-common/lib/get-url";
-import { i18n } from "discourse-i18n";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -322,13 +319,13 @@ export default class FooterNavExp extends Component {
                 </dropdown.item>
                 <dropdown.item>
 
-                  <button class="btn btn-transparent" role="button">{{dIcon
+                  <button class="btn btn-transparent" type="button">{{dIcon
                       "comment"
                     }}
                     New chat</button>
                 </dropdown.item>
                 <dropdown.item>
-                  <button class="btn btn-transparent" role="button">{{dIcon
+                  <button class="btn btn-transparent" type="button">{{dIcon
                       "envelope"
                     }}
                     New PM</button>
@@ -352,7 +349,7 @@ export default class FooterNavExp extends Component {
         {{/if}}
         <span class="footer-nav__item --search">
           <button
-            role="button"
+            type="button"
             class="btn btn-transparent no-text footer-nav__search
               {{if this.currentRouteSearch 'active'}}"
             {{on "click" this.goSearch}}
