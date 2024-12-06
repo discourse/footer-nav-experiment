@@ -25,7 +25,6 @@
 // End of chat-unread-indicator mixin copy-paste
 
 .footer-nav-experiment-present {
-  $footer-nav-height: 3em;
   // Hide buttons that are covered by the footer nav
   .d-header-icons {
     .hamburger-dropdown,
@@ -40,8 +39,7 @@
   }
 
   .footer-nav {
-    height: calc(3.25em + max(5px, env(safe-area-inset-bottom)));
-    backdrop-filter: blur(10px);
+    height: 3.25em;
   }
 
   .footer-nav .footer-nav-widget {
