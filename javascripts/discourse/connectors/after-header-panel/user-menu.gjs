@@ -1,9 +1,9 @@
 import Component from "@glimmer/component";
 import { service } from "@ember/service";
-import DMenu from "float-kit/components/d-menu";
-import avatar from "discourse/helpers/avatar";
 import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
 import UserMenuProfileTabContent from "discourse/components/user-menu/profile-tab-content";
+import avatar from "discourse/helpers/avatar";
+import DMenu from "float-kit/components/d-menu";
 
 export default class userMenu extends Component {
   @service currentUser;

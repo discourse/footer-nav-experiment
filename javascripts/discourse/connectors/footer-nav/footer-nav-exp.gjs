@@ -1,18 +1,18 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { on } from "@ember/modifier";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
+import DropdownMenu from "discourse/components/dropdown-menu";
 import htmlClass from "discourse/helpers/html-class";
 import DiscourseURL from "discourse/lib/url";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
 import dIcon from "discourse-common/helpers/d-icon";
-import DMenu from "float-kit/components/d-menu";
-import DropdownMenu from "discourse/components/dropdown-menu";
-import { on } from "@ember/modifier";
 import getURL from "discourse-common/lib/get-url";
+import DMenu from "float-kit/components/d-menu";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
