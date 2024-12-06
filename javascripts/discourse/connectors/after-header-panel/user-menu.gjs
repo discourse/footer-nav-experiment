@@ -17,10 +17,13 @@ export default class userMenu extends Component {
       >
         <:trigger>
           {{avatar this.currentUser imageSize="small"}}
-          <UserStatusMenu
-            @timezone={{this.this.currentUser.user_option.timezone}}
-            @status={{this.currentUser.status}}
-          />
+
+          {{#if this.currentUser.status}}
+            <UserStatusMenu
+              @timezone={{this.this.currentUser.user_option.timezone}}
+              @status={{this.currentUser.status}}
+            />
+          {{/if}}
         </:trigger>
 
         <:content>
