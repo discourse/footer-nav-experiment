@@ -72,6 +72,26 @@
         }
       }
     }
+
+    &__user-menu {
+      ul {
+        list-style: none;
+        margin: 0;
+      }
+      .btn,
+      a {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        color: var(--primary);
+      }
+      .logout {
+        .btn,
+        .d-icon {
+          color: var(--danger);
+        }
+      }
+    }
   }
 
   #toggle-current-user {

@@ -348,7 +348,7 @@ export default class FooterNavExp extends Component {
         {{/if}}
         <span class="footer-nav__item --search">
           <button
-            class="btn btn-transparent btn-no-text footer-nav__search
+            class="btn btn-transparent no-text footer-nav__search
               {{if this.currentRouteSearch 'active'}}"
             {{on "click" this.goSearch}}
           >
