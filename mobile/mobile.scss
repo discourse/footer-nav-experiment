@@ -34,8 +34,11 @@
 
   .d-header {
     height: 3.25em;
-    &:has(.d-header__back) .title {
-      display: none;
+    &:has(.d-header__back) {
+      .title,
+      .after-header-panel-outlet {
+        display: none;
+      }
     }
 
     .title {
@@ -84,6 +87,13 @@
         align-items: center;
         gap: 1em;
         color: var(--primary);
+        width: 100%;
+        justify-content: start;
+        box-sizing: border-box;
+
+        &:focus {
+          background-color: transparent;
+        }
       }
       .logout {
         .btn,
