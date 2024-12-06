@@ -10,18 +10,22 @@ import UserMenuProfileTabContent from "discourse/components/user-menu/profile-ta
 
 export default class userMenu extends Component {
   @service currentUser;
-  <template>
-    <DMenu
-      @modalForMobile={{true}}
-      @class="btn-transparent d-header__user-menu"
-    >
-      <:trigger>
-        {{avatar this.currentUser imageSize="small"}}
-      </:trigger>
+  @service site;
 
-      <:content>
-        <UserMenuProfileTabContent />
-      </:content>
-    </DMenu>
+  <template>
+    {{#if this.site.mobileView}}
+      <DMenu
+        @modalForMobile={{true}}
+        @class="btn-transparent d-header__user-menu"
+      >
+        <:trigger>
+          {{avatar this.currentUser imageSize="small"}}
+        </:trigger>
+
+        <:content>
+          <UserMenuProfileTabContent />
+        </:content>
+      </DMenu>
+    {{/if}}
   </template>
 }
