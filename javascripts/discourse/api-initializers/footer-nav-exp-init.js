@@ -1,6 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
 import discourseComputed from "discourse-common/utils/decorators";
-import UserAvatarFlair from "../components/user-avatar-flair";
 
 export default apiInitializer("1.8.0", (api) => {
   api.registerValueTransformer(
