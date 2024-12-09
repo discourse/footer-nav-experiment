@@ -17,14 +17,14 @@
   }
 
   .navigation-container {
-    height: 3.25em;
+    min-height: 3.25em;
+    padding-block: 0.5em;
+    box-sizing: border-box;
 
     .navigation-controls {
       align-items: center;
     }
   }
-
-  $footer-nav-height: 3em;
 
   #navigation-bar,
   .navigation-controls {
@@ -44,7 +44,7 @@
   }
 
   .d-header {
-    height: 3.25em;
+    // height: 3.25em;
     &:has(.d-header__back) {
       .title,
       .after-header-panel-outlet {
@@ -74,7 +74,9 @@
 
     .d-header-icons {
       height: 100%;
-      .d-icon {
+      align-items: center;
+      //just for demo, needs to be scoped better
+      .d-icon:not(.d-icon-envelope):not(.d-icon-discourse-dnd) {
         font-size: var(--font-up-3-rem);
         width: 1em;
       }
@@ -88,6 +90,17 @@
           width: revert-layer;
           height: revert-layer;
         }
+      }
+      .badge-notification {
+        top: 20%;
+        transform: translateY(-50%);
+      }
+
+      .do-not-disturb-background {
+        right: 0;
+        left: unset;
+        bottom: 25%;
+        transform: translateY(50%);
       }
     }
 
