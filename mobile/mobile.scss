@@ -217,7 +217,7 @@
       flex-basis: unset;
       flex-direction: row;
       flex-grow: unset;
-      gap: 0.25em;
+      gap: 0.5em;
       &.--active {
         border-bottom: var(--d-nav-underline-height) solid
           var(--d-nav-color--active);
@@ -234,17 +234,19 @@
       .c-unread-indicator {
         position: unset;
         margin-left: unset;
+        height: 8px;
+        width: 8px;
 
         &.-urgent {
           margin-left: unset;
-          height: 0.75em;
-          width: min-content;
+          height: 8px;
+          width: 8px;
           min-width: unset;
-          padding: 0.21em 0.32em;
+          padding: 0;
         }
       }
       .c-unread-indicator__number {
-        font-size: var(--font-down-1);
+        display: none;
       }
     }
   }
