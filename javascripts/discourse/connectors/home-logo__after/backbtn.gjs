@@ -3,6 +3,7 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import { and } from "truth-helpers";
 import DButton from "discourse/components/d-button";
+import DiscourseURL from "discourse/lib/url";
 
 export default class BackBtn extends Component {
   @service router;
@@ -30,7 +31,11 @@ export default class BackBtn extends Component {
 
   @action
   goBack(_, event) {
-    window.history.back();
+    if (this.router.session.topicList?.filter) {
+      DiscourseURL.routeTo("/" + this.router.session.topicList.filter);
+    } else {
+      DiscourseURL.routeTo("/");
+    }
     event.preventDefault();
   }
 
