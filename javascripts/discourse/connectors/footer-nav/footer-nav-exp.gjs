@@ -101,7 +101,6 @@ export default class FooterNavExp extends Component {
   }
 
   get showNewTopicButton() {
-    console.log(this.currentUser);
     return this.currentUser;
     //needs updating for chat and PMs
     // return (

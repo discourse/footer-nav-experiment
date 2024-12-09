@@ -6,7 +6,7 @@ import avatar from "discourse/helpers/avatar";
 import DMenu from "float-kit/components/d-menu";
 
 export default class userMenu extends Component {
-  static shouldRender(args, context, owner) {
+  static shouldRender(args, context) {
     if (!context.currentUser) {
       return false;
     } else {
