@@ -101,7 +101,8 @@ export default class FooterNavExp extends Component {
   }
 
   get showNewTopicButton() {
-    return true;
+    console.log(this.currentUser);
+    return this.currentUser;
     //needs updating for chat and PMs
     // return (
     //   this.currentUser?.can_create_topic &&
@@ -293,47 +294,49 @@ export default class FooterNavExp extends Component {
           </span>
         {{/if}} --}}
 
-        <span class="footer-nav__item --new">
-          <DMenu
-            @identifier="new-menu"
-            @title="new"
-            @icon="plus"
-            @class="btn-transparent footer-nav__new-topic"
-            @onRegisterApi={{this.onRegisterApi}}
-            @modalForMobile={{true}}
-          >
-            <:content>
-              <DropdownMenu as |dropdown|>
+        {{#if this.showNewTopicButton}}
+          <span class="footer-nav__item --new">
+            <DMenu
+              @identifier="new-menu"
+              @title="new"
+              @icon="plus"
+              @class="btn-transparent footer-nav__new-topic"
+              @onRegisterApi={{this.onRegisterApi}}
+              @modalForMobile={{true}}
+            >
+              <:content>
+                <DropdownMenu as |dropdown|>
 
-                <dropdown.item>
-                  {{!-- <button class="btn btn-transparent">{{dIcon
+                  <dropdown.item>
+                    {{!-- <button class="btn btn-transparent">{{dIcon
                       "far-pen-to-square"
                     }}
                     New topic</button> --}}
-                  <DButton
-                    @label={{themePrefix "mobile_footer.new_topic"}}
-                    @action={{this.goNewTopic}}
-                    @icon="far-pen-to-square"
-                    class="btn-transparent"
-                  />
-                </dropdown.item>
-                <dropdown.item>
+                    <DButton
+                      @label={{themePrefix "mobile_footer.new_topic"}}
+                      @action={{this.goNewTopic}}
+                      @icon="far-pen-to-square"
+                      class="btn-transparent"
+                    />
+                  </dropdown.item>
+                  <dropdown.item>
 
-                  <button class="btn btn-transparent" type="button">{{dIcon
-                      "comment"
-                    }}
-                    New chat</button>
-                </dropdown.item>
-                <dropdown.item>
-                  <button class="btn btn-transparent" type="button">{{dIcon
-                      "envelope"
-                    }}
-                    New PM</button>
-                </dropdown.item>
-              </DropdownMenu>
-            </:content>
-          </DMenu>
-        </span>
+                    <button class="btn btn-transparent" type="button">{{dIcon
+                        "comment"
+                      }}
+                      New chat</button>
+                  </dropdown.item>
+                  <dropdown.item>
+                    <button class="btn btn-transparent" type="button">{{dIcon
+                        "envelope"
+                      }}
+                      New PM</button>
+                  </dropdown.item>
+                </DropdownMenu>
+              </:content>
+            </DMenu>
+          </span>
+        {{/if}}
 
         {{#if this.showChatButton}}
           <span class="footer-nav__item --chat">
