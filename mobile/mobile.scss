@@ -35,7 +35,8 @@
 
   .navigation-controls {
     gap: 0.5rem;
-    .bulk-select {
+    .bulk-select,
+    #show-tag-info {
       margin: 0;
     }
   }
@@ -87,11 +88,6 @@
         box-sizing: border-box;
         padding: 0.5em 0.65em;
         width: auto;
-
-        img.avatar {
-          width: revert-layer;
-          height: revert-layer;
-        }
       }
       .badge-notification {
         top: 20%;
@@ -149,6 +145,11 @@
           color: var(--danger);
         }
       }
+    }
+
+    img.avatar {
+      width: 28px;
+      height: 28px;
     }
   }
 
