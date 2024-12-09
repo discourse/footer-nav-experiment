@@ -148,8 +148,8 @@
     }
 
     img.avatar {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
     }
   }
 
@@ -250,4 +250,25 @@
       }
     }
   }
+
+  //unrelated experiment
+  // .quick-access-panel {
+  //   .notification {
+  //     &.unread {
+  //       background: transparent;
+  //     }
+  //     div {
+  //       gap: 0.5rem;
+  //       &:after {
+  //         content: "";
+  //         flex-shrink: 0;
+  //         display: inline-block;
+  //         height: 8px;
+  //         width: 8px;
+  //         background-color: var(--tertiary-high);
+  //         border-radius: 100%;
+  //       }
+  //     }
+  //   }
+  // }
 }
