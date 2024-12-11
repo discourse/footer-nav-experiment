@@ -183,8 +183,9 @@
     align-self: stretch;
 
     .d-header__back {
+      font-size: var(--font-up-1-rem);
       height: 100%;
-      padding-left: 0;
+      padding-inline: 0.5rem 0.75rem;
     }
   }
 
