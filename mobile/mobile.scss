@@ -1,4 +1,8 @@
 .footer-nav-experiment-present {
+  &.has-full-page-chat .d-header-icons .search-dropdown {
+    display: list-item;
+  }
+
   &.keyboard-visible {
     .footer-nav {
       display: none;
@@ -184,8 +188,12 @@
     }
   }
 
-  .c-header .c-heading {
+  .c-header .back-to-forum {
     display: none;
+  }
+
+  .c-header .c-heading {
+    margin-inline: 0 auto;
   }
 
   .full-page-chat {
