@@ -122,6 +122,10 @@ export default class FooterNavExp extends Component {
     return this.currentUser;
   }
 
+  get showDismissButton() {
+    return this.capabilities.isAppWebview;
+  }
+
   @action
   dismiss() {
     postRNWebviewMessage("dismiss", true);
@@ -388,14 +392,15 @@ export default class FooterNavExp extends Component {
 
               <:content>
                 <UserMenuProfileTabContent />
-                <hr />
-                {{!-- <a href="#">{{dIcon "fab-discourse"}}Go to Hub</a> --}}
-                <DButton
-                  @action={{this.dismiss}}
-                  @icon="fab-discourse"
-                  @label={{themePrefix "mobile_footer.return_to_hub"}}
-                  class="btn-flat no-text d-header__user-menu-hub"
-                />
+                {{#if this.showDismissButton}}
+                  <hr />
+                  <DButton
+                    @action={{this.dismiss}}
+                    @icon="fab-discourse"
+                    @label={{themePrefix "mobile_footer.return_to_hub"}}
+                    class="btn-flat no-text d-header__user-menu-hub"
+                  />
+                {{/if}}
               </:content>
             </DMenu>
           </span>
