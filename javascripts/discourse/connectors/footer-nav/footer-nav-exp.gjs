@@ -123,7 +123,7 @@ export default class FooterNavExp extends Component {
   }
 
   get showDismissButton() {
-    return this.capabilities.isAppWebview;
+    return this.capabilities.wasLaunchedFromDiscourseHub;
   }
 
   @action
