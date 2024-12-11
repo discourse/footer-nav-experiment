@@ -13,6 +13,9 @@ import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
 import dIcon from "discourse-common/helpers/d-icon";
 import getURL from "discourse-common/lib/get-url";
 import DMenu from "float-kit/components/d-menu";
+import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
+import UserMenuProfileTabContent from "discourse/components/user-menu/profile-tab-content";
+import avatar from "discourse/helpers/avatar";
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -113,6 +116,10 @@ export default class FooterNavExp extends Component {
 
   get showShareButton() {
     return settings.include_new_topic_button && this.currentRouteTopic;
+  }
+
+  get showUserMenu() {
+    return this.currentUser;
   }
 
   @action
@@ -349,7 +356,8 @@ export default class FooterNavExp extends Component {
             {{this.chatUnreadIndicator}}
           </span>
         {{/if}}
-        <span class="footer-nav__item --search">
+
+        {{!-- <span class="footer-nav__item --search">
           <button
             type="button"
             class="btn btn-transparent no-text footer-nav__search
@@ -359,16 +367,39 @@ export default class FooterNavExp extends Component {
             {{dIcon "search"}}
 
           </button>
-        </span>
-
-        {{!-- <span class="footer-nav__item --usermenu">
-          <button
-            class="btn btn-transparent btn-no-text footer-nav__user-menu"
-            {{on "click" this.toggleUserMenu}}
-          >
-            <UserDropdown {{this.handleFocus}} />
-          </button>
         </span> --}}
+
+        {{#if this.showUserMenu}}
+          <span class="footer-nav__item --usermenu">
+            <DMenu
+              @modalForMobile={{true}}
+              @class="btn-transparent d-header__user-menu"
+            >
+              <:trigger>
+                {{avatar this.currentUser imageSize="small"}}
+
+                {{#if this.currentUser.status}}
+                  <UserStatusMenu
+                    @timezone={{this.this.currentUser.user_option.timezone}}
+                    @status={{this.currentUser.status}}
+                  />
+                {{/if}}
+              </:trigger>
+
+              <:content>
+                <UserMenuProfileTabContent />
+                <hr />
+                {{!-- <a href="#">{{dIcon "fab-discourse"}}Go to Hub</a> --}}
+                <DButton
+                  @action={{this.dismiss}}
+                  @icon="fab-discourse"
+                  @label={{themePrefix "mobile_footer.return_to_hub"}}
+                  class="btn-flat no-text d-header__user-menu-hub"
+                />
+              </:content>
+            </DMenu>
+          </span>
+        {{/if}}
 
       </div>
     </div>

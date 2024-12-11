@@ -1,17 +1,20 @@
 import Component from "@glimmer/component";
+import { action } from "@ember/object";
 import { service } from "@ember/service";
 import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
 import UserMenuProfileTabContent from "discourse/components/user-menu/profile-tab-content";
 import avatar from "discourse/helpers/avatar";
 import DMenu from "float-kit/components/d-menu";
+import DButton from "discourse/components/d-button";
 
 export default class userMenu extends Component {
   static shouldRender(args, context) {
-    if (!context.currentUser) {
-      return false;
-    } else {
-      return true;
-    }
+    return false;
+    // if (!context.currentUser) {
+    //   return false;
+    // } else {
+    //   return true;
+    // }
   }
   @service currentUser;
   @service site;
