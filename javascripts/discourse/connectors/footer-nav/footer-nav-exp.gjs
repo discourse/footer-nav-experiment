@@ -16,6 +16,25 @@ import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
 import dIcon from "discourse-common/helpers/d-icon";
 import getURL from "discourse-common/lib/get-url";
 import DMenu from "float-kit/components/d-menu";
+import AuthButtons from "discourse/components/header/auth-buttons";
+import DAG from "discourse/lib/dag";
+import { and, eq, not, or } from "truth-helpers";
+
+let headerButtons;
+resetHeaderButtons();
+
+function resetHeaderButtons() {
+  headerButtons = new DAG({ defaultPosition: { before: "auth" } });
+  headerButtons.add("auth");
+}
+
+export function headerButtonsDAG() {
+  return headerButtons;
+}
+
+export function clearExtraHeaderButtons() {
+  resetHeaderButtons();
+}
 
 export default class FooterNavExp extends Component {
   @service appEvents;
@@ -405,6 +424,21 @@ export default class FooterNavExp extends Component {
             </DMenu>
           </span>
         {{/if}}
+
+        <span class="footer-nav__item --login">
+          {{#each (headerButtons.resolve) as |entry|}}
+            {{#if (and (eq entry.key "auth") (not this.currentUser))}}
+              <AuthButtons
+                @topicInfoVisible={{@topicInfoVisible}}
+                @showCreateAccount={{@showCreateAccount}}
+                @showLogin={{@showLogin}}
+                @canSignUp={{@canSignUp}}
+              />
+            {{else if entry.value}}
+              <entry.value />
+            {{/if}}
+          {{/each}}
+        </span>
 
       </div>
     </div>

@@ -40,16 +40,20 @@
 
   .footer-nav {
     height: 3.25em;
+    padding-inline: 0.67em; //parity with header
+    box-sizing: border-box;
   }
 
   .footer-nav .footer-nav-widget {
-    justify-content: space-around;
+    height: 100%;
+    justify-content: space-between;
 
-    .btn {
+    .btn-icon {
       height: 100%;
       justify-content: center;
       font-size: var(--font-up-3-rem);
       margin: 0;
+      padding: 0.5em 0.65em;
     }
     .btn.active,
     .btn.active .d-icon {
@@ -71,6 +75,15 @@
           calc(-50% - calc(var(--font-up-3-rem) / 2))
         );
         border: 2px solid var(--header_background);
+      }
+    }
+    &.--login {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .btn {
+        padding: 0.5em 0.65em;
+        margin: 0 0.65em 0 0;
       }
     }
     // &.--back {
@@ -108,13 +121,21 @@
 
   &.anon {
     .footer-nav .footer-nav-widget {
-      display: block;
-
-      .footer-nav__item.--home {
-        right: 50%;
-        position: absolute;
-        transform: translateX(50%);
+      .footer-nav__item {
+        flex-basis: 33%;
+        &.--home {
+          text-align: center;
+        }
       }
     }
+    // .footer-nav .footer-nav-widget {
+    //   display: block;
+
+    //   .footer-nav__item.--home {
+    //     right: 50%;
+    //     position: absolute;
+    //     transform: translateX(50%);
+    //   }
+    // }
   }
 }

@@ -10,7 +10,8 @@
   }
   &:has(.c-routes.--channel) {
     .d-header {
-      display: none;
+      visibility: hidden;
+      height: 0;
     }
   }
 
@@ -157,6 +158,10 @@
 
     &__user-menu-hub {
       padding: 0.75em 1rem;
+    }
+
+    .header-buttons {
+      display: none;
     }
   }
 
