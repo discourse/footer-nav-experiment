@@ -259,6 +259,7 @@ export default class FooterNavExp extends Component {
 
     {{htmlClass "footer-nav-experiment-present"}}
 
+    {{! unclear why we place the footer at the top for ipads? }}
     {{#if this.capabilities.isIpadOS}}
       {{htmlClass "footer-nav-ipad"}}
     {{else if this.isVisible}}
