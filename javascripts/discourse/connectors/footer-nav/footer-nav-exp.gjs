@@ -152,11 +152,6 @@ export default class FooterNavExp extends Component {
 
   @action
   goHome() {
-    if (this.currentRouteHome) {
-      document.querySelector(".list-control-toggle-link-trigger").click();
-      event.preventDefault();
-      return;
-    }
     if (this.currentRouteChat) {
       const url = getURL(this.previousURL);
       if (url) {
