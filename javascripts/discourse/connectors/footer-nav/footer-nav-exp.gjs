@@ -137,12 +137,8 @@ export default class FooterNavExp extends Component {
     return settings.include_new_topic_button && this.currentRouteTopic;
   }
 
-  get showUserMenu() {
-    return this.currentUser;
-  }
-
   get showDismissButton() {
-    return this.capabilities.isAppWebview;
+    return !this.currentUser && this.capabilities.isAppWebview;
   }
 
   @action
@@ -345,22 +341,36 @@ export default class FooterNavExp extends Component {
           </span>
         {{/if}}
 
-        <span class="footer-nav__item --user">
-          <button
-            type="button"
-            class="btn-flat footer-nav__user"
-            {{on "click" this.toggleUserMenu}}
-          >
-            {{avatar this.currentUser imageSize="small"}}
+        {{#if this.currentUser}}
+          <span class="footer-nav__item --user">
+            <button
+              type="button"
+              class="btn-flat footer-nav__user"
+              {{on "click" this.toggleUserMenu}}
+            >
+              {{avatar this.currentUser imageSize="small"}}
 
-            {{#if this.currentUser.status}}
-              <UserStatusMenu
-                @timezone={{this.this.currentUser.user_option.timezone}}
-                @status={{this.currentUser.status}}
-              />
-            {{/if}}
-          </button>
-        </span>
+              {{#if this.currentUser.status}}
+                <UserStatusMenu
+                  @timezone={{this.this.currentUser.user_option.timezone}}
+                  @status={{this.currentUser.status}}
+                />
+              {{/if}}
+            </button>
+          </span>
+        {{/if}}
+
+        {{#if this.showDismissButton}}
+          <span class="footer-nav__item --hub">
+            <DButton
+              @action={{this.dismiss}}
+              @icon="fab-discourse"
+              @title={{themePrefix "mobile_footer.return_to_hub"}}
+              class="btn-transparent no-text"
+            />
+          </span>
+        {{/if}}
+
       </div>
     </div>
   </template>

@@ -148,24 +148,4 @@
       }
     }
   }
-
-  &.anon {
-    .footer-nav .footer-nav-widget {
-      .footer-nav__item {
-        flex-basis: 33%;
-        &.--home {
-          text-align: center;
-        }
-      }
-    }
-    // .footer-nav .footer-nav-widget {
-    //   display: block;
-
-    //   .footer-nav__item.--home {
-    //     right: 50%;
-    //     position: absolute;
-    //     transform: translateX(50%);
-    //   }
-    // }
-  }
 }
