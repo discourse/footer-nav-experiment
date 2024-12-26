@@ -2,6 +2,7 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
+import { postRNWebviewMessage } from "discourse/lib/utilities";
 
 export default class hubTab extends Component {
   static shouldRender(args, context) {
