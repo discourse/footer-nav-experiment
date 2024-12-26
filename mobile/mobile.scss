@@ -84,12 +84,6 @@
         font-size: var(--font-up-3-rem);
         width: 1em;
       }
-      .icon {
-        height: 100%;
-        box-sizing: border-box;
-        padding: 0.5em 0.65em;
-        width: auto;
-      }
       .badge-notification {
         top: 20%;
         transform: translateY(-50%);
@@ -102,78 +96,12 @@
         transform: translateY(50%);
       }
     }
-
-    &__user-menu {
-      &.btn {
-        position: relative;
-      }
-      li.enabled .d-icon {
-        color: var(--tertiary);
-      }
-
-      img.avatar {
-        width: 32px;
-        height: 32px;
-      }
-      .user-status-background {
-        width: unset;
-        height: unset;
-        border: 2px solid var(--secondary);
-        border-radius: 50%;
-        position: absolute;
-        right: 25%;
-        top: 50%;
-        transform: translateX(50%);
-
-        .emoji {
-          width: 14px;
-          height: 14px;
-        }
-      }
-      ul {
-        list-style: none;
-        margin: 0;
-      }
-      .btn,
-      a {
-        display: flex;
-        align-items: center;
-        gap: 1em;
-        color: var(--primary);
-        width: 100%;
-        justify-content: start;
-        box-sizing: border-box;
-
-        &:focus {
-          background-color: transparent;
-        }
-      }
-      .logout {
-        .btn,
-        .d-icon {
-          color: var(--danger);
-        }
-      }
-    }
-
-    &__user-menu-hub {
-      padding: 0.75em 1rem;
-    }
-
-    .header-buttons {
-      display: none;
-    }
   }
 
   #toggle-current-user {
+    display: none;
     .avatar,
     .user-status-background {
-      display: none;
-    }
-  }
-
-  .user-menu-dropdown-wrapper {
-    .bottom-tabs {
       display: none;
     }
   }
@@ -268,24 +196,25 @@
     }
   }
 
-  //unrelated experiment
-  // .quick-access-panel {
-  //   .notification {
-  //     &.unread {
-  //       background: transparent;
-  //     }
-  //     div {
-  //       gap: 0.5rem;
-  //       &:after {
-  //         content: "";
-  //         flex-shrink: 0;
-  //         display: inline-block;
-  //         height: 8px;
-  //         width: 8px;
-  //         background-color: var(--tertiary-high);
-  //         border-radius: 100%;
-  //       }
-  //     }
-  //   }
-  // }
+  .user-menu.revamped {
+    .logout {
+      .item-label,
+      .d-icon {
+        color: var(--danger);
+      }
+    }
+
+    .hub-tab {
+      margin-top: auto;
+      margin-bottom: max(env(safe-area-inset-bottom), 0.75em);
+
+      .btn {
+        width: 100%;
+        font-size: var(--font-up-1-rem);
+        .d-icon {
+          color: var(--primary-medium);
+        }
+      }
+    }
+  }
 }

@@ -42,6 +42,12 @@
     height: 3.25em;
     padding-inline: 0.67em; //parity with header
     box-sizing: border-box;
+
+    &__user {
+      position: relative;
+      margin: 0 !important;
+      padding: 0.5em 0.65em !important;
+    }
   }
 
   .footer-nav .footer-nav-widget {
@@ -62,6 +68,8 @@
   }
 
   .footer-nav__item {
+    flex-basis: 20%;
+    text-align: center;
     &.--chat {
       position: relative;
 
@@ -84,6 +92,28 @@
       .btn {
         padding: 0.5em 0.65em;
         margin: 0 0.65em 0 0;
+      }
+    }
+    &.--user {
+      display: flex;
+      img.avatar {
+        width: 32px;
+        height: 32px;
+      }
+      .user-status-background {
+        width: unset;
+        height: unset;
+        border: 2px solid var(--secondary);
+        border-radius: 50%;
+        position: absolute;
+        right: 25%;
+        top: 50%;
+        transform: translateX(50%);
+
+        .emoji {
+          width: 14px;
+          height: 14px;
+        }
       }
     }
     // &.--back {

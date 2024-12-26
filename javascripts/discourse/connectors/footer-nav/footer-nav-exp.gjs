@@ -1,6 +1,6 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-// import { on } from "@ember/modifier";
+import { on } from "@ember/modifier";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
@@ -218,12 +218,6 @@ export default class FooterNavExp extends Component {
     });
   }
 
-  // @action
-  // goBack(_, event) {
-  //   window.history.back();
-  //   event.preventDefault();
-  // }
-
   get isVisible() {
     return (
       [UNSCROLLED, SCROLLED_UP].includes(
@@ -282,20 +276,6 @@ export default class FooterNavExp extends Component {
 
     <div class={{this.wrapperClassNames}}>
       <div class="footer-nav-widget">
-        {{!-- {{#if this.showBackButton}}
-          <span class="footer-nav__item --back">
-            <DButton
-              @action={{this.goBack}}
-              @icon="chevron-left"
-              class={{concatClass
-                "btn-flat footer-nav__back"
-                (unless this.showBackButton "--disabled")
-              }}
-              @forwardEvent={{true}}
-            />
-          </span>
-        {{/if}} --}}
-
         <span class="footer-nav__item --menu">
           <DButton
             @action={{this.toggleHamburger}}
@@ -312,16 +292,6 @@ export default class FooterNavExp extends Component {
               {{if this.currentRouteHome 'active'}}"
           />
         </span>
-
-        {{!-- {{#if this.showShareButton}}
-          <span class="footer-nav__item --share">
-            <DButton
-              @action={{this.goShare}}
-              @icon="share-from-square"
-              class="btn-flat footer-nav__share"
-            />
-          </span>
-        {{/if}} --}}
 
         {{#if this.showNewTopicButton}}
           <span class="footer-nav__item --new">
@@ -380,66 +350,22 @@ export default class FooterNavExp extends Component {
           </span>
         {{/if}}
 
-        {{!-- <span class="footer-nav__item --search">
+        <span class="footer-nav__item --user">
           <button
             type="button"
-            class="btn btn-transparent no-text footer-nav__search
-              {{if this.currentRouteSearch 'active'}}"
-            {{on "click" this.goSearch}}
+            class="btn-flat footer-nav__user"
+            {{on "click" this.toggleUserMenu}}
           >
-            {{dIcon "search"}}
+            {{avatar this.currentUser imageSize="small"}}
 
-          </button>
-        </span> --}}
-
-        {{#if this.showUserMenu}}
-          <span class="footer-nav__item --usermenu">
-            <DMenu
-              @modalForMobile={{true}}
-              @class="btn-transparent d-header__user-menu"
-            >
-              <:trigger>
-                {{avatar this.currentUser imageSize="small"}}
-
-                {{#if this.currentUser.status}}
-                  <UserStatusMenu
-                    @timezone={{this.this.currentUser.user_option.timezone}}
-                    @status={{this.currentUser.status}}
-                  />
-                {{/if}}
-              </:trigger>
-
-              <:content>
-                <UserMenuProfileTabContent />
-                {{#if this.showDismissButton}}
-                  <hr />
-                  <DButton
-                    @action={{this.dismiss}}
-                    @icon="fab-discourse"
-                    @label={{themePrefix "mobile_footer.return_to_hub"}}
-                    class="btn-flat no-text d-header__user-menu-hub"
-                  />
-                {{/if}}
-              </:content>
-            </DMenu>
-          </span>
-        {{/if}}
-
-        <span class="footer-nav__item --login">
-          {{#each (headerButtons.resolve) as |entry|}}
-            {{#if (and (eq entry.key "auth") (not this.currentUser))}}
-              <AuthButtons
-                @topicInfoVisible={{@topicInfoVisible}}
-                @showCreateAccount={{@showCreateAccount}}
-                @showLogin={{@showLogin}}
-                @canSignUp={{@canSignUp}}
+            {{#if this.currentUser.status}}
+              <UserStatusMenu
+                @timezone={{this.this.currentUser.user_option.timezone}}
+                @status={{this.currentUser.status}}
               />
-            {{else if entry.value}}
-              <entry.value />
             {{/if}}
-          {{/each}}
+          </button>
         </span>
-
       </div>
     </div>
   </template>
