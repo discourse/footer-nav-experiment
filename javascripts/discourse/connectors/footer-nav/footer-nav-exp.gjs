@@ -5,6 +5,7 @@ import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import DropdownMenu from "discourse/components/dropdown-menu";
+import UserDropdown from "discourse/components/header/user-dropdown";
 import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
 import avatar from "discourse/helpers/avatar";
 import htmlClass from "discourse/helpers/html-class";
@@ -44,6 +45,7 @@ export default class FooterNavExp extends Component {
   @service router;
   @service scrollDirection;
   @service siteSettings;
+  @service header;
   @tracked previousURL;
 
   constructor() {
@@ -341,20 +343,10 @@ export default class FooterNavExp extends Component {
 
         {{#if this.currentUser}}
           <span class="footer-nav__item --user">
-            <button
-              type="button"
-              class="btn-flat footer-nav__user"
-              {{on "click" this.toggleUserMenu}}
-            >
-              {{avatar this.currentUser imageSize="small"}}
-
-              {{#if this.currentUser.status}}
-                <UserStatusMenu
-                  @timezone={{this.this.currentUser.user_option.timezone}}
-                  @status={{this.currentUser.status}}
-                />
-              {{/if}}
-            </button>
+            <UserDropdown
+              @active={{this.header.userVisible}}
+              @toggleUserMenu={{this.toggleUserMenu}}
+            />
           </span>
         {{/if}}
 

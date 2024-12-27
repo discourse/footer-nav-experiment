@@ -8,12 +8,6 @@
       display: none;
     }
   }
-  &:has(.c-routes.--channel) {
-    .d-header {
-      visibility: hidden;
-      height: 0;
-    }
-  }
 
   .navigation-topics,
   .navigation-category,
@@ -53,6 +47,13 @@
 
   .d-header {
     // height: 3.25em;
+    #toggle-current-user {
+      display: none;
+      .avatar,
+      .user-status-background {
+        display: none;
+      }
+    }
     &:has(.d-header__back) {
       .title,
       .after-header-panel-outlet {
@@ -95,20 +96,6 @@
         bottom: 25%;
         transform: translateY(50%);
       }
-    }
-  }
-
-  #toggle-current-user {
-    display: none;
-    .avatar,
-    .user-status-background {
-      display: none;
-    }
-  }
-
-  .has-full-page-chat .--channels {
-    .d-header-wrap {
-      display: none;
     }
   }
 
