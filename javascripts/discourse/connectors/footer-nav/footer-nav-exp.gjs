@@ -1,13 +1,12 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
-import { on } from "@ember/modifier";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import DropdownMenu from "discourse/components/dropdown-menu";
 import UserDropdown from "discourse/components/header/user-dropdown";
-import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
-import avatar from "discourse/helpers/avatar";
+// import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
+// import avatar from "discourse/helpers/avatar";
 import htmlClass from "discourse/helpers/html-class";
 import DAG from "discourse/lib/dag";
 import DiscourseURL from "discourse/lib/url";
