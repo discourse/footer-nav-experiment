@@ -200,6 +200,7 @@ export default class FooterNavExp extends Component {
       createTopicButton.click();
       return;
     }
+    this.dMenu.close();
 
     this.composer.open({
       action: Composer.CREATE_TOPIC,
