@@ -1,3 +1,4 @@
+import ChatModalNewMessage from "discourse/plugins/chat/discourse/components/chat/modal/new-message";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
@@ -193,14 +194,26 @@ export default class FooterNavExp extends Component {
   }
 
   @action
-  goNewTopic() {
-    this.dMenu.close();
+  async openNewTopic() {
+    await this.dMenu.close();
 
     this.composer.openNewTopic({
       action: Composer.CREATE_TOPIC,
       draftKey: Composer.NEW_TOPIC_KEY,
       category: this.router.currentRoute?.attributes?.category,
     });
+  }
+
+  @action
+  async openNewChat() {
+    await this.dMenu.close();
+    await this.modal.show(ChatModalNewMessage);
+  }
+
+  @action
+  async openNewPm() {
+    await this.dMenu.close();
+    this.composer.openNewMessage({});
   }
 
   get isVisible() {
@@ -295,23 +308,26 @@ export default class FooterNavExp extends Component {
                   <dropdown.item>
                     <DButton
                       @label={{themePrefix "mobile_footer.new_topic"}}
-                      @action={{this.goNewTopic}}
+                      @action={{this.openNewTopic}}
                       @icon="far-pen-to-square"
                       class="btn-transparent"
                     />
                   </dropdown.item>
                   <dropdown.item>
-
-                    <button class="btn btn-transparent" type="button">{{dIcon
-                        "comment"
-                      }}
-                      New chat</button>
+                    <DButton
+                      @label={{themePrefix "mobile_footer.new_chat"}}
+                      @action={{this.openNewChat}}
+                      @icon="comment"
+                      class="btn-transparent"
+                    />
                   </dropdown.item>
                   <dropdown.item>
-                    <button class="btn btn-transparent" type="button">{{dIcon
-                        "envelope"
-                      }}
-                      New PM</button>
+                    <DButton
+                      @label={{themePrefix "mobile_footer.new_pm"}}
+                      @action={{this.openNewPm}}
+                      @icon="envelope"
+                      class="btn-transparent"
+                    />
                   </dropdown.item>
                 </DropdownMenu>
               </:content>
