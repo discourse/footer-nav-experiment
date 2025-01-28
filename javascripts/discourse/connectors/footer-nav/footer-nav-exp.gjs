@@ -194,17 +194,12 @@ export default class FooterNavExp extends Component {
 
   @action
   goNewTopic() {
-    // If the page has a create-topic button, use it for context sensitive attributes like category
-    const createTopicButton = document.querySelector("#create-topic");
-    if (createTopicButton) {
-      createTopicButton.click();
-      return;
-    }
     this.dMenu.close();
 
-    this.composer.open({
+    this.composer.openNewTopic({
       action: Composer.CREATE_TOPIC,
       draftKey: Composer.NEW_TOPIC_KEY,
+      category: this.router.currentRoute?.attributes?.category,
     });
   }
 
