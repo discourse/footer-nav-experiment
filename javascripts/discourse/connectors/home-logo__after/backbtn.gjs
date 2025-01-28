@@ -31,12 +31,7 @@ export default class BackBtn extends Component {
 
   @action
   goBack(_, event) {
-    if (this.router.session.topicList?.filter) {
-      DiscourseURL.routeTo("/" + this.router.session.topicList.filter);
-    } else {
-      DiscourseURL.routeTo("/");
-    }
-    event.preventDefault();
+    history.back();
   }
 
   <template>
@@ -45,7 +40,6 @@ export default class BackBtn extends Component {
         @action={{this.goBack}}
         @icon="chevron-left"
         class="btn-transparent d-header__back"
-        @forwardEvent={{true}}
       />
     {{/if}}
   </template>

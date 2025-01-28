@@ -3,4 +3,6 @@ en:
     description: "A theme for Discourse"
   mobile_footer:
     new_topic: "New Topic"
+    new_chat: "New Chat"
+    new_pm: "New PM"
     return_to_hub: "Return to Hub"

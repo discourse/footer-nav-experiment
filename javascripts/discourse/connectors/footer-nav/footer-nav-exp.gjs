@@ -1,3 +1,5 @@
+import concatClass from "discourse/helpers/concat-class";
+import ChatModalNewMessage from "discourse/plugins/chat/discourse/components/chat/modal/new-message";
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
@@ -46,6 +48,7 @@ export default class FooterNavExp extends Component {
   @service siteSettings;
   @service header;
   @tracked previousURL;
+  @tracked chat;
 
   constructor() {
     super(...arguments);
@@ -94,12 +97,12 @@ export default class FooterNavExp extends Component {
       count += 1;
     }
 
-    if (this.showChatButton) {
+    if (this.showNewChatButton) {
       count += 1;
     }
 
     // we only show new topic or share, not both at the same time
-    if (this.showNewTopicButton || this.showShareButton) {
+    if (this.showNewActions || this.showShareButton) {
       count += 1;
     }
 
@@ -116,19 +119,24 @@ export default class FooterNavExp extends Component {
     return true;
   }
 
-  get showChatButton() {
-    return this.currentUser?.can_chat;
+  get showNewChatButton() {
+    return this.chat?.userCanChat;
+  }
+
+  get showNewPmButton() {
+    return this.can_send_private_messages;
   }
 
   get showNewTopicButton() {
-    return this.currentUser;
-    //needs updating for chat and PMs
-    // return (
-    //   this.currentUser?.can_create_topic &&
-    //   settings.include_new_topic_button &&
-    //   !this.currentRouteTopic &&
-    //   !this.currentRouteChat
-    // );
+    return (
+      this.currentUser?.can_create_topic && settings.include_new_topic_button
+    );
+  }
+
+  get showNewActions() {
+    return (
+      this.showNewTopicButton || this.showNewChatButton || this.showNewPmButton
+    );
   }
 
   get showShareButton() {
@@ -151,10 +159,10 @@ export default class FooterNavExp extends Component {
       if (url) {
         DiscourseURL.routeTo(url);
       } else {
-        DiscourseURL.routeTo(`/`);
+        DiscourseURL.routeTo("/");
       }
     } else {
-      DiscourseURL.routeTo(`/`);
+      DiscourseURL.routeTo("/");
     }
   }
 
@@ -193,18 +201,26 @@ export default class FooterNavExp extends Component {
   }
 
   @action
-  goNewTopic() {
-    // If the page has a create-topic button, use it for context sensitive attributes like category
-    const createTopicButton = document.querySelector("#create-topic");
-    if (createTopicButton) {
-      createTopicButton.click();
-      return;
-    }
+  async openNewTopic() {
+    await this.dMenu.close();
 
-    this.composer.open({
+    this.composer.openNewTopic({
       action: Composer.CREATE_TOPIC,
       draftKey: Composer.NEW_TOPIC_KEY,
+      category: this.router.currentRoute?.attributes?.category,
     });
+  }
+
+  @action
+  async openNewChat() {
+    await this.dMenu.close();
+    await this.modal.show(ChatModalNewMessage);
+  }
+
+  @action
+  async openNewPm() {
+    await this.dMenu.close();
+    this.composer.openNewMessage({});
   }
 
   get isVisible() {
@@ -216,9 +232,8 @@ export default class FooterNavExp extends Component {
   }
 
   get currentRouteHome() {
-    const topMenu = this.siteSettings.top_menu.split("|");
+    const topMenu = this.siteSettings.top_menu.split("|").filter(Boolean);
     const topMenuRouteNames = topMenu.map((item) => `discovery.${item}`);
-
     return topMenuRouteNames.includes(this.router.currentRoute.name);
   }
 
@@ -277,13 +292,16 @@ export default class FooterNavExp extends Component {
         <span class="footer-nav__item --home">
           <DButton
             @action={{this.goHome}}
-            @icon="home"
-            class="btn-flat footer-nav__home
-              {{if this.currentRouteHome 'active'}}"
+            @icon="house"
+            class={{concatClass
+              "btn-flat"
+              "footer-nav__home"
+              (if this.currentRouteHome "active")
+            }}
           />
         </span>
 
-        {{#if this.showNewTopicButton}}
+        {{#if this.showNewActions}}
           <span class="footer-nav__item --new">
             <DMenu
               @identifier="new-menu"
@@ -295,45 +313,54 @@ export default class FooterNavExp extends Component {
             >
               <:content>
                 <DropdownMenu as |dropdown|>
+                  {{#if this.showNewTopicButton}}
+                    <dropdown.item>
+                      <DButton
+                        @label={{themePrefix "mobile_footer.new_topic"}}
+                        @action={{this.openNewTopic}}
+                        @icon="far-pen-to-square"
+                        class="btn-transparent"
+                      />
+                    </dropdown.item>
+                  {{/if}}
 
-                  <dropdown.item>
-                    {{!-- <button class="btn btn-transparent">{{dIcon
-                      "far-pen-to-square"
-                    }}
-                    New topic</button> --}}
-                    <DButton
-                      @label={{themePrefix "mobile_footer.new_topic"}}
-                      @action={{this.goNewTopic}}
-                      @icon="far-pen-to-square"
-                      class="btn-transparent"
-                    />
-                  </dropdown.item>
-                  <dropdown.item>
+                  {{#if this.showNewChatButton}}
+                    <dropdown.item>
+                      <DButton
+                        @label={{themePrefix "mobile_footer.new_chat"}}
+                        @action={{this.openNewChat}}
+                        @icon="comment"
+                        class="btn-transparent"
+                      />
+                    </dropdown.item>
+                  {{/if}}
 
-                    <button class="btn btn-transparent" type="button">{{dIcon
-                        "comment"
-                      }}
-                      New chat</button>
-                  </dropdown.item>
-                  <dropdown.item>
-                    <button class="btn btn-transparent" type="button">{{dIcon
-                        "envelope"
-                      }}
-                      New PM</button>
-                  </dropdown.item>
+                  {{#if this.showNewPmButton}}
+                    <dropdown.item>
+                      <DButton
+                        @label={{themePrefix "mobile_footer.new_pm"}}
+                        @action={{this.openNewPm}}
+                        @icon="envelope"
+                        class="btn-transparent"
+                      />
+                    </dropdown.item>
+                  {{/if}}
                 </DropdownMenu>
               </:content>
             </DMenu>
           </span>
         {{/if}}
 
-        {{#if this.showChatButton}}
+        {{#if this.showNewChatButton}}
           <span class="footer-nav__item --chat">
             <DButton
               @action={{this.goChat}}
               @icon="d-chat"
-              class="btn-flat footer-nav__chat
-                {{if this.currentRouteChat 'active'}}"
+              class={{concatClass
+                "btn-flat"
+                "footer-nav__chat"
+                (if this.currentRouteChat "active")
+              }}
               @title="footer_nav.chat"
             />
             {{this.chatUnreadIndicator}}
@@ -359,7 +386,6 @@ export default class FooterNavExp extends Component {
             />
           </span>
         {{/if}}
-
       </div>
     </div>
   </template>
