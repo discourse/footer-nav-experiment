@@ -277,7 +277,7 @@ export default class FooterNavExp extends Component {
         <span class="footer-nav__item --home">
           <DButton
             @action={{this.goHome}}
-            @icon="home"
+            @icon="house"
             class="btn-flat footer-nav__home
               {{if this.currentRouteHome 'active'}}"
           />
