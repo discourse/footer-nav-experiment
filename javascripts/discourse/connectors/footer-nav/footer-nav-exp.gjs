@@ -297,10 +297,6 @@ export default class FooterNavExp extends Component {
                 <DropdownMenu as |dropdown|>
 
                   <dropdown.item>
-                    {{!-- <button class="btn btn-transparent">{{dIcon
-                      "far-pen-to-square"
-                    }}
-                    New topic</button> --}}
                     <DButton
                       @label={{themePrefix "mobile_footer.new_topic"}}
                       @action={{this.goNewTopic}}
