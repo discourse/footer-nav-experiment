@@ -44,8 +44,8 @@ export default class BackBtn extends Component {
       <DButton
         @action={{this.goBack}}
         @icon="chevron-left"
-        class="btn-transparent d-header__back"
         @forwardEvent={{true}}
+        class="btn-transparent d-header__back"
       />
     {{/if}}
   </template>
