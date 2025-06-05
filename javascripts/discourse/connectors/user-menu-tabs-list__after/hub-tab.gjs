@@ -3,7 +3,7 @@ import { action } from "@ember/object";
 import DButton from "discourse/components/d-button";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
 
-export default class hubTab extends Component {
+export default class HubTab extends Component {
   static shouldRender(args, context) {
     return context.capabilities.isAppWebview;
   }

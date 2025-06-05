@@ -5,16 +5,14 @@ import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import DropdownMenu from "discourse/components/dropdown-menu";
 import UserDropdown from "discourse/components/header/user-dropdown";
-// import UserStatusMenu from "discourse/components/header/user-dropdown/user-status-bubble";
-// import avatar from "discourse/helpers/avatar";
+import dIcon from "discourse/helpers/d-icon";
 import htmlClass from "discourse/helpers/html-class";
 import DAG from "discourse/lib/dag";
+import getURL from "discourse/lib/get-url";
 import DiscourseURL from "discourse/lib/url";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
-import dIcon from "discourse-common/helpers/d-icon";
-import getURL from "discourse-common/lib/get-url";
 import DMenu from "float-kit/components/d-menu";
 
 let headerButtons;
@@ -45,6 +43,7 @@ export default class FooterNavExp extends Component {
   @service scrollDirection;
   @service siteSettings;
   @service header;
+
   @tracked previousURL;
 
   constructor() {
@@ -252,6 +251,7 @@ export default class FooterNavExp extends Component {
       require("discourse/plugins/chat/discourse/components/chat/header/icon/unread-indicator").default;
     return ChatIconUnreadIndicator;
   }
+
   <template>
     {{this.setDiscourseHubHeaderBg this.modal.activeModal}}
 
@@ -332,9 +332,9 @@ export default class FooterNavExp extends Component {
             <DButton
               @action={{this.goChat}}
               @icon="d-chat"
+              @title="footer_nav.chat"
               class="btn-flat footer-nav__chat
                 {{if this.currentRouteChat 'active'}}"
-              @title="footer_nav.chat"
             />
             {{this.chatUnreadIndicator}}
           </span>
