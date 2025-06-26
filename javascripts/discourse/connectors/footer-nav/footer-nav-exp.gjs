@@ -1,11 +1,11 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { next } from "@ember/runloop";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import DropdownMenu from "discourse/components/dropdown-menu";
 import UserDropdown from "discourse/components/header/user-dropdown";
-import dIcon from "discourse/helpers/d-icon";
 import htmlClass from "discourse/helpers/html-class";
 import DAG from "discourse/lib/dag";
 import getURL from "discourse/lib/get-url";
@@ -14,6 +14,7 @@ import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
 import DMenu from "float-kit/components/d-menu";
+import ChatModalNewMessage from "discourse/plugins/chat/discourse/components/chat/modal/new-message";
 
 let headerButtons;
 resetHeaderButtons();
@@ -193,17 +194,34 @@ export default class FooterNavExp extends Component {
 
   @action
   goNewTopic() {
-    // If the page has a create-topic button, use it for context sensitive attributes like category
-    const createTopicButton = document.querySelector("#create-topic");
-    if (createTopicButton) {
-      createTopicButton.click();
+    if (!this.currentUser?.can_create_topic) {
       return;
     }
 
-    this.composer.open({
+    const category = this.router.currentRoute?.attributes?.category;
+    const canCreateInCategory = category?.permission;
+
+    this.dMenu.close();
+    this.composer.openNewTopic({
       action: Composer.CREATE_TOPIC,
       draftKey: Composer.NEW_TOPIC_KEY,
+      category: canCreateInCategory ? category : null,
+      tags: this.router.currentRoute?.attributes?.tag?.id,
     });
+  }
+
+  @action
+  goNewChat() {
+    this.dMenu.close();
+    next(() => {
+      this.modal.show(ChatModalNewMessage);
+    });
+  }
+
+  @action
+  goNewPM() {
+    this.dMenu.close();
+    this.composer.openNewMessage({});
   }
 
   get isVisible() {
@@ -295,32 +313,41 @@ export default class FooterNavExp extends Component {
             >
               <:content>
                 <DropdownMenu as |dropdown|>
-
                   <dropdown.item>
-                    {{!-- <button class="btn btn-transparent">{{dIcon
-                      "far-pen-to-square"
-                    }}
-                    New topic</button> --}}
-                    <DButton
-                      @label={{themePrefix "mobile_footer.new_topic"}}
-                      @action={{this.goNewTopic}}
-                      @icon="far-pen-to-square"
-                      class="btn-transparent"
-                    />
+                    {{#if this.currentUser.can_create_topic}}
+                      <DButton
+                        @label={{themePrefix "mobile_footer.new_topic"}}
+                        @action={{this.goNewTopic}}
+                        @icon="far-pen-to-square"
+                        class="btn-transparent
+                          {{if
+                            this.currentUser.can_create_topic
+                            ''
+                            'disabled'
+                          }}"
+                      />
+                    {{/if}}
                   </dropdown.item>
-                  <dropdown.item>
-
-                    <button class="btn btn-transparent" type="button">{{dIcon
-                        "comment"
-                      }}
-                      New chat</button>
-                  </dropdown.item>
-                  <dropdown.item>
-                    <button class="btn btn-transparent" type="button">{{dIcon
-                        "envelope"
-                      }}
-                      New PM</button>
-                  </dropdown.item>
+                  {{#if this.currentUser.can_chat}}
+                    <dropdown.item>
+                      <DButton
+                        @label={{themePrefix "mobile_footer.new_chat"}}
+                        @action={{this.goNewChat}}
+                        @icon="comment"
+                        class="btn-transparent"
+                      />
+                    </dropdown.item>
+                  {{/if}}
+                  {{#if this.currentUser.can_direct_message}}
+                    <dropdown.item>
+                      <DButton
+                        @label={{themePrefix "mobile_footer.new_pm"}}
+                        @action={{this.goNewPM}}
+                        @icon="envelope"
+                        class="btn-transparent"
+                      />
+                    </dropdown.item>
+                  {{/if}}
                 </DropdownMenu>
               </:content>
             </DMenu>

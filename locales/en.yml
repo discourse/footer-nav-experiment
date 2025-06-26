@@ -2,5 +2,7 @@ en:
   theme_metadata:
     description: "A theme for Discourse"
   mobile_footer:
-    new_topic: "New Topic"
+    new_topic: "New topic"
+    new_chat: "New chat"
+    new_pm: "New message"
     return_to_hub: "Return to Hub"
