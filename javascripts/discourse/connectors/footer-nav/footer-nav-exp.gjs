@@ -38,7 +38,6 @@ export default class FooterNavExp extends Component {
   @service chatStateManager;
   @service composer;
   @service currentUser;
-  @service historyStore;
   @service modal;
   @service router;
   @service scrollDirection;

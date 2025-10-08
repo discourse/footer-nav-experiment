@@ -1,7 +1,7 @@
 import { apiInitializer } from "discourse/lib/api";
 import discourseComputed from "discourse/lib/decorators";
 
-export default apiInitializer("1.8.0", (api) => {
+export default apiInitializer((api) => {
   // api.registerValueTransformer(
   //   "header-notifications-avatar-size",
   //   () => "tiny"
