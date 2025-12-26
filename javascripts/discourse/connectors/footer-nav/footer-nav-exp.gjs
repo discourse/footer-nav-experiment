@@ -205,7 +205,7 @@ export default class FooterNavExp extends Component {
       action: Composer.CREATE_TOPIC,
       draftKey: Composer.NEW_TOPIC_KEY,
       category: canCreateInCategory ? category : null,
-      tags: this.router.currentRoute?.attributes?.tag?.id,
+      tags: this.router.currentRoute?.attributes?.tag?.name,
     });
   }
 
