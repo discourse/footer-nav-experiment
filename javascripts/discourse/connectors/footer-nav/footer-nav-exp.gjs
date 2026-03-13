@@ -6,6 +6,7 @@ import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import DropdownMenu from "discourse/components/dropdown-menu";
 import UserDropdown from "discourse/components/header/user-dropdown";
+import DMenu from "discourse/float-kit/components/d-menu";
 import htmlClass from "discourse/helpers/html-class";
 import DAG from "discourse/lib/dag";
 import getURL from "discourse/lib/get-url";
@@ -13,7 +14,6 @@ import DiscourseURL from "discourse/lib/url";
 import { postRNWebviewMessage } from "discourse/lib/utilities";
 import Composer from "discourse/models/composer";
 import { SCROLLED_UP, UNSCROLLED } from "discourse/services/scroll-direction";
-import DMenu from "float-kit/components/d-menu";
 import ChatModalNewMessage from "discourse/plugins/chat/discourse/components/chat/modal/new-message";
 
 let headerButtons;
